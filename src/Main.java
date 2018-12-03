@@ -25,7 +25,7 @@ public class Main {
     private static void GenerateCryptids() {
         System.out.println("Generating Cryptids...");
 
-        //daatabase connection
+        //database connection
         Connection conn = dbconnect.getConn();
         try {
             //check how many cryptids are currently in DB
@@ -73,11 +73,12 @@ public class Main {
                 insertCryptids.executeUpdate();
                 insertCryptids = conn.prepareStatement("INSERT INTO cryptid VALUES (null,'Mothman','Winged Bipedal Monster',250.00,8.50,'Sky')");
                 insertCryptids.executeUpdate();
+
+                conn.commit();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         System.out.println("Generation Complete");
     }
 
@@ -103,7 +104,10 @@ public class Main {
                 pstmt.setInt(6, viewer.getPublications());
 
                 pstmt.executeUpdate();
+
             }
+
+            conn.commit();
 
             System.out.println("Generation Complete");
         } catch (SQLException e) {
@@ -124,7 +128,7 @@ public class Main {
             //prepare statement for inserting sighting
             PreparedStatement pstmt = conn.prepareStatement("insert into sightings values (?, ?, ?, ?, ?)");
 
-            //get the number of cryptids in the database (ised later to select random cryptids
+            //get the number of cryptids in the database used later to select random cryptids
             PreparedStatement cryptidPS = conn.prepareStatement("SELECT COUNT(*) FROM cryptid");
             ResultSet cryptidRS = cryptidPS.executeQuery();
             cryptidRS.next();
@@ -160,6 +164,8 @@ public class Main {
                 }
             }
 
+
+            conn.commit();
             System.out.println("Generation Complete");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -217,6 +223,8 @@ public class Main {
 
                 }
             }
+
+            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -254,6 +262,8 @@ public class Main {
 
                 insertEvidence.executeUpdate();
             }
+
+            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -291,6 +301,7 @@ public class Main {
             }
 
 
+            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -327,6 +338,7 @@ public class Main {
                 insertMedia.setInt(5, rand.nextInt(10));
                 insertMedia.executeUpdate();
             }
+            conn.commit();
 
         }
         catch (SQLException e)
