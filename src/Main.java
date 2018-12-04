@@ -2,6 +2,8 @@ import java.sql.*;
 import com.github.javafaker.Faker;
 import dnl.utils.text.table.TextTable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -88,6 +90,8 @@ public class Main {
                 searchPublications();
                 break;
             case 4:
+                searchSightings();
+                break;
             case 5:
             case 6:
             case 7:
@@ -353,6 +357,87 @@ public class Main {
 
 
         catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void searchSightings()
+    {
+        Scanner scanner = new Scanner(System.in);
+        Connection conn = dbconnect.getConn();
+        int count = 0;
+        PreparedStatement countPS, pstmt;
+        ResultSet getRS = null, countRS;
+        System.out.println("What would you like to search by?\n" +
+                "1. Cryptid ID\n" +
+                "2. Date (YYYY-MM-DD)\n" +
+                "3. Viewer ID");
+        int response = scanner.nextInt();
+        System.out.print("Enter search term:");
+        scanner.nextLine();
+        String query = scanner.nextLine();
+
+        try
+        {
+            if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM sightings WHERE CID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM sightings WHERE CID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 2)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM sightings WHERE Date_Seen = ?");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date utilDate = format.parse(query);
+                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                countPS.setDate(1, sqlDate);
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM sightings WHERE Date_Seen = ?");
+                pstmt.setDate(1, sqlDate);
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 3)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM sightings WHERE Viewer_ID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM sightings WHERE Viewer_ID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+
+            String[] names = {"Cryptid ID", "Latitude", "Longitude", "Date Seen", "Viewer ID"};
+            String[][] publications = new String[count][5];
+            int i = 0;
+            assert getRS != null;
+            while (getRS.next())
+            {
+                publications[i][0] = Integer.toString(getRS.getInt(1));
+                publications[i][1] = Float.toString(getRS.getFloat(2));
+                publications[i][2] = Float.toString(getRS.getFloat(3));
+                publications[i][3] = String.valueOf(getRS.getDate(4));
+                publications[i][4] = Integer.toString(getRS.getInt(5));
+                i++;
+            }
+            TextTable publicationsTable = new TextTable(names, publications);
+            publicationsTable.printTable();
+        }
+
+
+        catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
     }
