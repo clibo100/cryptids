@@ -3,15 +3,89 @@ import com.github.javafaker.Faker;
 import dnl.utils.text.table.TextTable;
 
 import java.util.Random;
+import java.util.Scanner;
 
 @SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection", "unused", "Duplicates"})
 public class Main {
 
     private static DatabaseConnection dbconnect = new DatabaseConnection();
+    private static Scanner scanner= new Scanner(System.in);
 
     public static void main(String[] args)
     {
-        printAllEvidence();
+        boolean cont = true;
+
+        System.out.println("WELCOME TO THE CRYPTID DATABASE\n");
+
+        while (cont)
+        {
+            System.out.println("What would you like to do?");
+            System.out.println("1. View a Table");
+            int response = scanner.nextInt();
+
+            switch (response)
+            {
+                case 1:
+                    cont = printTable();
+                    break;
+                default:
+                    System.out.println("Invalid Request");
+                    break;
+            }
+
+        }
+    }
+
+    private static boolean printTable()
+    {
+        System.out.println("Which table would you like to see?");
+        System.out.println("1. Cryptids\n" +
+                "2. Viewers\n" +
+                "3. Publications\n" +
+                "4. Sightings\n" +
+                "5. Media\n" +
+                "6. Folklore\n" +
+                "7. Evidence");
+        int response = scanner.nextInt();
+
+        switch (response)
+        {
+            case 1:
+                printAllCryptids();
+                break;
+            case 2:
+                printAllViewers();
+                break;
+            case 3:
+                printAllPublications();
+                break;
+            case 4:
+                printAllSightings();
+                break;
+            case 5:
+                printAllMedia();
+                break;
+            case 6:
+                printAllFolklore();
+                break;
+            case 7:
+                printAllEvidence();
+                break;
+            default:
+                System.out.println("Invalid Input");
+        }
+        System.out.println("Would you like to continue?");
+        scanner.nextLine();
+        String cont = scanner.nextLine();
+        if (cont.charAt(0) == 'y' || cont.charAt(0) == 'Y')
+        {
+            return true;
+        }
+        else
+        {
+            System.out.println("Thank you and stay Cryptid! :)");
+            return false;
+        }
     }
 
     private static void printAllCryptids()
@@ -185,6 +259,7 @@ public class Main {
         }
 
     }
+
     private static void printAllFolklore()
     {
         System.out.println("All Media: ");

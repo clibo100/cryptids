@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fb521cca-a870-488f-8858-32ca56bf6548" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Cryptids/DatabaseConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Cryptids/DatabaseConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Cryptids/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Cryptids/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -44,14 +42,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="11740" />
-          <entry key="txt" value="85" />
+          <entry key="java" value="12696" />
+          <entry key="txt" value="133" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="11740" />
-          <entry key="PLAIN_TEXT" value="85" />
+          <entry key="JAVA" value="12696" />
+          <entry key="PLAIN_TEXT" value="133" />
         </counts>
       </usages-collector>
     </session>
@@ -61,23 +59,23 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="493" column="71" selection-start-line="493" selection-start-column="71" selection-end-line="493" selection-end-column="71" />
+            <state relative-caret-position="323">
+              <caret line="85" column="62" selection-start-line="85" selection-start-column="62" selection-end-line="85" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#362#363#0" expanded="true" />
-                <element signature="e#396#397#0" expanded="true" />
                 <element signature="method#printAllCryptids#0;class#Main#0" />
                 <element signature="method#printAllViewers#0;class#Main#0" />
                 <element signature="method#printAllSightings#0;class#Main#0" />
                 <element signature="method#printAllPublications#0;class#Main#0" />
                 <element signature="method#printAllMedia#0;class#Main#0" />
                 <element signature="method#printAllFolklore#0;class#Main#0" />
+                <element signature="method#printAllEvidence#0;class#Main#0" />
                 <element signature="method#Repopulate#0;class#Main#0" />
                 <element signature="method#GenerateCryptids#0;class#Main#0" />
                 <element signature="method#GenerateHundredViewers#0;class#Main#0" />
                 <element signature="method#GenerateSightings#0;class#Main#0" />
                 <element signature="method#GeneratePublications#0;class#Main#0" />
+                <element signature="method#GenerateHundredEvidence#0;class#Main#0" />
                 <element signature="method#GenerateHundredFolklore#0;class#Main#0" />
                 <element signature="method#GenerateHundredMedia#0;class#Main#0" />
               </folding>
@@ -202,7 +200,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543884360819" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543886100346" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -257,7 +255,7 @@
       <workItem from="1542828037788" duration="8030000" />
       <workItem from="1543269640901" duration="681000" />
       <workItem from="1543367927268" duration="2363000" />
-      <workItem from="1543864025606" duration="11561000" />
+      <workItem from="1543864025606" duration="13108000" />
     </task>
     <task id="LOCAL-00001" summary="added transactions">
       <created>1543868756870</created>
@@ -273,11 +271,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543882159304</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="finished up all print table functions">
+      <created>1543884413658</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1543884413658</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49818000" />
+    <option name="totallyTimeSpent" value="51365000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -348,7 +353,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added transactions" />
     <MESSAGE value="Prints tables for cryptids, viewers, sightings, and publications" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prints tables for cryptids, viewers, sightings, and publications" />
+    <MESSAGE value="finished up all print table functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished up all print table functions" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/NamesList.java" />
@@ -406,23 +412,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="493" column="71" selection-start-line="493" selection-start-column="71" selection-end-line="493" selection-end-column="71" />
+        <state relative-caret-position="323">
+          <caret line="85" column="62" selection-start-line="85" selection-start-column="62" selection-end-line="85" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#362#363#0" expanded="true" />
-            <element signature="e#396#397#0" expanded="true" />
             <element signature="method#printAllCryptids#0;class#Main#0" />
             <element signature="method#printAllViewers#0;class#Main#0" />
             <element signature="method#printAllSightings#0;class#Main#0" />
             <element signature="method#printAllPublications#0;class#Main#0" />
             <element signature="method#printAllMedia#0;class#Main#0" />
             <element signature="method#printAllFolklore#0;class#Main#0" />
+            <element signature="method#printAllEvidence#0;class#Main#0" />
             <element signature="method#Repopulate#0;class#Main#0" />
             <element signature="method#GenerateCryptids#0;class#Main#0" />
             <element signature="method#GenerateHundredViewers#0;class#Main#0" />
             <element signature="method#GenerateSightings#0;class#Main#0" />
             <element signature="method#GeneratePublications#0;class#Main#0" />
+            <element signature="method#GenerateHundredEvidence#0;class#Main#0" />
             <element signature="method#GenerateHundredFolklore#0;class#Main#0" />
             <element signature="method#GenerateHundredMedia#0;class#Main#0" />
           </folding>
