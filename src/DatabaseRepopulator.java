@@ -12,13 +12,11 @@ public class DatabaseRepopulator {
 
     private static DatabaseConnection dbconnect = new DatabaseConnection();
 
-    public DatabaseRepopulator()
-    {
+    public DatabaseRepopulator() {
 
     }
 
-    private static void Repopulate()
-    {
+    private static void Repopulate() {
         GenerateCryptids();
         GenerateHundredEvidence();
         GenerateHundredFolklore();

@@ -861,4 +861,61 @@ class DatabaseConnection {
         }
 
     }
+
+    static void updateCryptid() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you know the cryptid's ID number?");
+        String idresponse = scanner.nextLine();
+
+        if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
+            printAllCryptids();
+        }
+
+        System.out.print("Enter Cryptid ID number: ");
+        int CID = scanner.nextInt();
+
+        System.out.println("What would you like to update?");
+        System.out.println("1. Name\n" +
+                "2. Description\n" +
+                "3. Weight\n" +
+                "4. Height\n" +
+                "5. Biome\n");
+        int response = scanner.nextInt();
+
+        try
+        {
+            if(response == 1)
+            {
+                System.out.print("Enter new name:");
+                scanner.nextLine();
+                String name = scanner.nextLine();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE cryptid SET Cryptid_Name = ? WHERE CID = ?");
+                updateNamePS.setString(1, name);
+                updateNamePS.setInt(2, CID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Cryptid ID: " + CID + " to name: " + name);
+
+            }
+            else if (response == 2)
+            {
+
+            }
+            else if (response == 3)
+            {
+
+            }
+            else if (response == 4)
+            {
+
+            }
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

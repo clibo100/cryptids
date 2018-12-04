@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb521cca-a870-488f-8858-32ca56bf6548" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Cryptids/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Cryptids/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Cryptids/DatabaseConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Cryptids/DatabaseConnection.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DatabaseRepopulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseRepopulator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -44,29 +46,28 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="15914" />
-          <entry key="txt" value="318" />
+          <entry key="java" value="16405" />
+          <entry key="txt" value="373" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="15914" />
-          <entry key="PLAIN_TEXT" value="318" />
+          <entry key="JAVA" value="16405" />
+          <entry key="PLAIN_TEXT" value="373" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
+            <state relative-caret-position="85">
+              <caret line="50" column="16" lean-forward="true" selection-start-line="50" selection-start-column="16" selection-end-line="56" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#main#0;class#Main#0" />
-                <element signature="method#searchTable#0;class#Main#0" />
+                <element signature="method#printTable#0;class#Main#0" />
               </folding>
             </state>
           </provider>
@@ -75,11 +76,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DatabaseRepopulator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="36" lean-forward="true" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+            <state relative-caret-position="527">
+              <caret line="352" column="1" lean-forward="true" selection-start-line="352" selection-start-column="1" selection-end-line="352" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#182#268#0" expanded="true" />
+                <element signature="method#DatabaseRepopulator#0;class#DatabaseRepopulator#0" />
                 <element signature="method#Repopulate#0;class#DatabaseRepopulator#0" />
                 <element signature="method#GenerateCryptids#0;class#DatabaseRepopulator#0" />
                 <element signature="method#GenerateHundredViewers#0;class#DatabaseRepopulator#0" />
@@ -128,11 +130,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/DatabaseConnection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1037">
-              <caret line="831" lean-forward="true" selection-start-line="831" selection-end-line="831" />
+            <state relative-caret-position="293">
+              <caret line="899" column="68" selection-start-line="899" selection-start-column="68" selection-end-line="899" selection-end-column="68" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#154#240#1" expanded="true" />
@@ -175,8 +177,8 @@
         <option value="$PROJECT_DIR$/src/Sighting.java" />
         <option value="$PROJECT_DIR$/src/Publication.java" />
         <option value="$PROJECT_DIR$/src/DatabaseRepopulator.java" />
-        <option value="$PROJECT_DIR$/src/DatabaseConnection.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/DatabaseConnection.java" />
       </list>
     </option>
   </component>
@@ -229,7 +231,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543958722427" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543959990598" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -284,7 +286,7 @@
       <workItem from="1542828037788" duration="8030000" />
       <workItem from="1543269640901" duration="681000" />
       <workItem from="1543367927268" duration="2363000" />
-      <workItem from="1543864025606" duration="27257000" />
+      <workItem from="1543864025606" duration="28524000" />
     </task>
     <task id="LOCAL-00001" summary="added transactions">
       <created>1543868756870</created>
@@ -363,11 +365,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543958577553</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="move all print methods to databaseconnection class">
+      <created>1543958765179</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1543958765179</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65514000" />
+    <option name="totallyTimeSpent" value="66781000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -446,7 +455,8 @@
     <MESSAGE value="Finished up searches" />
     <MESSAGE value="move search methods to database connection class" />
     <MESSAGE value="move repopulation code to new class DatabaseRepopulator" />
-    <option name="LAST_COMMIT_MESSAGE" value="move repopulation code to new class DatabaseRepopulator" />
+    <MESSAGE value="move all print methods to databaseconnection class" />
+    <option name="LAST_COMMIT_MESSAGE" value="move all print methods to databaseconnection class" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/NamesList.java" />
@@ -497,11 +507,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DatabaseRepopulator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="36" lean-forward="true" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+        <state relative-caret-position="527">
+          <caret line="352" column="1" lean-forward="true" selection-start-line="352" selection-start-column="1" selection-end-line="352" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#182#268#0" expanded="true" />
+            <element signature="method#DatabaseRepopulator#0;class#DatabaseRepopulator#0" />
             <element signature="method#Repopulate#0;class#DatabaseRepopulator#0" />
             <element signature="method#GenerateCryptids#0;class#DatabaseRepopulator#0" />
             <element signature="method#GenerateHundredViewers#0;class#DatabaseRepopulator#0" />
@@ -514,10 +525,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="50" column="16" lean-forward="true" selection-start-line="50" selection-start-column="16" selection-end-line="56" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#printTable#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DatabaseConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1037">
-          <caret line="831" lean-forward="true" selection-start-line="831" selection-end-line="831" />
+        <state relative-caret-position="293">
+          <caret line="899" column="68" selection-start-line="899" selection-start-column="68" selection-end-line="899" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#154#240#1" expanded="true" />
@@ -535,18 +557,6 @@
             <element signature="method#printAllMedia#0;class#DatabaseConnection#0" />
             <element signature="method#printAllFolklore#0;class#DatabaseConnection#0" />
             <element signature="method#printAllEvidence#0;class#DatabaseConnection#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" />
-            <element signature="method#searchTable#0;class#Main#0" />
           </folding>
         </state>
       </provider>
