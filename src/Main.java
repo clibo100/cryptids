@@ -1,14 +1,153 @@
 import java.sql.*;
 import com.github.javafaker.Faker;
+import dnl.utils.text.table.TextTable;
+
 import java.util.Random;
 
-@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
+@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection", "unused"})
 public class Main {
 
     private static DatabaseConnection dbconnect = new DatabaseConnection();
 
     public static void main(String[] args) {
-        Repopulate();
+        printAllPublications();
+    }
+
+    private static void printAllCryptids()
+    {
+        System.out.println("All Cryptids: ");
+        Connection conn = dbconnect.getConn();
+        String[] names = {"ID Number", "Name", "Description", "Weight", "Height", "Biome"};
+        try {
+            PreparedStatement cryptidPS = conn.prepareStatement("SELECT COUNT(*) FROM cryptid");
+            ResultSet cryptidRS = cryptidPS.executeQuery();
+            cryptidRS.next();
+            int cryptidCount = cryptidRS.getInt(1);
+
+            String[][] cryptids = new String[cryptidCount][6];
+            PreparedStatement getCryptids = conn.prepareStatement("SELECT * FROM cryptid");
+            ResultSet getRS = getCryptids.executeQuery();
+            int i = 0;
+            while (getRS.next())
+            {
+                cryptids[i][0] = Integer.toString(getRS.getInt(1));
+                cryptids[i][1] = getRS.getString(2);
+                cryptids[i][2] = getRS.getString(3);
+                cryptids[i][3] = Float.toString(getRS.getFloat(4)) + " lbs";
+                cryptids[i][4] = Float.toString(getRS.getFloat(5)) + " ft";
+                cryptids[i][5] = getRS.getString(6);
+                i++;
+            }
+            TextTable cryptidTable = new TextTable(names, cryptids);
+            cryptidTable.printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void printAllViewers()
+    {
+        System.out.println("All Viewers: ");
+        Connection conn = dbconnect.getConn();
+        String[] names = {"ID Number", "Name", "Location", "Age", "Number of Sightings", "Credentials", "Number of Publications"};
+        try {
+            PreparedStatement viewerPS = conn.prepareStatement("SELECT COUNT(*) FROM viewer");
+            ResultSet viewerRS = viewerPS.executeQuery();
+            viewerRS.next();
+            int viewerCount = viewerRS.getInt(1);
+
+            String[][] viewers = new String[viewerCount][7];
+            PreparedStatement getViewers = conn.prepareStatement("SELECT * FROM viewer");
+            ResultSet getRS = getViewers.executeQuery();
+            int i = 0;
+            while (getRS.next())
+            {
+                viewers[i][0] = Integer.toString(getRS.getInt(1));
+                viewers[i][1] = getRS.getString(2);
+                viewers[i][2] = getRS.getString(3);
+                viewers[i][3] = Integer.toString(getRS.getInt(4));
+                viewers[i][4] = Integer.toString(getRS.getInt(5));
+                viewers[i][5] = getRS.getString(6);
+                viewers[i][6] = Integer.toString(getRS.getInt(7));
+                i++;
+            }
+            TextTable viewerTable = new TextTable(names, viewers);
+            viewerTable.printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void printAllSightings()
+    {
+        System.out.println("All Sightings: ");
+        Connection conn = dbconnect.getConn();
+        String[] names = {"Cryptid Name", "Latitude", "Longitude", "Date Seen", "Viewer Name"};
+        try {
+            PreparedStatement sightingPS = conn.prepareStatement("SELECT COUNT(*) FROM sightings");
+            ResultSet sightingsRS = sightingPS.executeQuery();
+            sightingsRS.next();
+            int sightingCount = sightingsRS.getInt(1);
+
+            String[][] sightings = new String[sightingCount][5];
+            PreparedStatement getSightings = conn.prepareStatement("SELECT c.Cryptid_Name, s.Latitude, s.Longitude, s.Date_Seen, v.Viewer_Name\n" +
+                    "FROM sightings s\n" +
+                    "LEFT JOIN cryptid c\n" +
+                    "ON s.CID = c.CID\n" +
+                    "LEFT JOIN viewer v\n" +
+                    "ON v.Viewer_ID = s.Viewer_ID;");
+            ResultSet getRS = getSightings.executeQuery();
+            int i = 0;
+            while (getRS.next())
+            {
+                sightings[i][0] = getRS.getString(1);
+                sightings[i][1] = Float.toString(getRS.getFloat(2));
+                sightings[i][2] = Float.toString(getRS.getFloat(3));
+                sightings[i][3] = String.valueOf(getRS.getDate(4));
+                sightings[i][4] = getRS.getString(5);
+                i++;
+            }
+            TextTable sightingsTable = new TextTable(names, sightings);
+            sightingsTable.printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private static void printAllPublications()
+    {
+        System.out.println("All Publications: ");
+        Connection conn = dbconnect.getConn();
+        String[] names = {"Author", "Title", "Year", "Publisher"};
+        try {
+            PreparedStatement publicationPS = conn.prepareStatement("SELECT COUNT(*) FROM publications");
+            ResultSet publicationRS = publicationPS.executeQuery();
+            publicationRS.next();
+            int publicationCount = publicationRS.getInt(1);
+
+            String[][] publications = new String[publicationCount][4];
+            PreparedStatement getPublications = conn.prepareStatement("SELECT v.Viewer_Name, p.Publication, p.Year, p.Publisher\n" +
+                    "FROM publications p\n" +
+                    "LEFT JOIN viewer v\n" +
+                    "ON v.Viewer_ID = p.Viewer_ID");
+            ResultSet getRS = getPublications.executeQuery();
+            int i = 0;
+            while (getRS.next())
+            {
+                publications[i][0] = getRS.getString(1);
+                publications[i][1] = getRS.getString(2);
+                publications[i][2] = Integer.toString(getRS.getInt(3));
+                publications[i][3] = getRS.getString(4);
+                i++;
+            }
+            TextTable publicationsTable = new TextTable(names, publications);
+            publicationsTable.printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private static void Repopulate()
@@ -150,7 +289,7 @@ public class Main {
                 //if the viewer doesn't have enough sightings to match the viewer table, generate the rest
                 //randomly and add to the sighting table
                 for (int i = 0; i < viewerRS.getInt(5) - viewerSightings; ++i) {
-                    Sighting sighting = new Sighting(rand.nextInt(cryptidCount), viewerRS.getInt(1),
+                    Sighting sighting = new Sighting(rand.nextInt(cryptidCount) + 1, viewerRS.getInt(1),
                             faker.date().birthday(1, viewerRS.getInt(4) - 13), Float.parseFloat(faker.address().latitude()), Float.parseFloat(faker.address().longitude()));
                     pstmt.setInt(1, sighting.getCID());
                     pstmt.setInt(5, sighting.getViewerID());
