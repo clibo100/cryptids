@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-@SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection"})
+@SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection", "WrapperTypeMayBePrimitive"})
 class DatabaseConnection {
 
     private static Connection conn;
@@ -106,7 +106,7 @@ class DatabaseConnection {
         int count = 0;
         PreparedStatement countPS, pstmt;
         ResultSet getRS = null, countRS;
-        System.out.println("What would you like to search by?\n" +
+        System.out.println("What would you like to search viewers by?\n" +
                 "1. ID\n" +
                 "2. Name\n" +
                 "3. Age\n" +
@@ -889,28 +889,175 @@ class DatabaseConnection {
             {
                 System.out.print("Enter new name:");
                 scanner.nextLine();
-                String name = scanner.nextLine();
+                String input = scanner.nextLine();
 
-                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE cryptid SET Cryptid_Name = ? WHERE CID = ?");
-                updateNamePS.setString(1, name);
-                updateNamePS.setInt(2, CID);
-                updateNamePS.executeUpdate();
+                PreparedStatement updatePS = conn.prepareStatement("UPDATE cryptid SET Cryptid_Name = ? WHERE CID = ?");
+                updatePS.setString(1, input);
+                updatePS.setInt(2, CID);
+                updatePS.executeUpdate();
                 conn.commit();
 
-                System.out.println("Updated Cryptid ID: " + CID + " to name: " + name);
+                System.out.println("Updated Cryptid ID: " + CID + " to name: " + input);
 
             }
             else if (response == 2)
             {
+                System.out.print("Enter new description:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
 
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE cryptid SET Description = ? WHERE CID = ?");
+                updateNamePS.setString(1, input);
+                updateNamePS.setInt(2, CID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Cryptid ID: " + CID + " to description: " + input);
             }
             else if (response == 3)
             {
+                System.out.print("Enter new weight:");
+                scanner.nextLine();
+                Float input = scanner.nextFloat();
 
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE cryptid SET Weight = ? WHERE CID = ?");
+                updateNamePS.setFloat(1, input);
+                updateNamePS.setInt(2, CID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Cryptid ID: " + CID + " to weight: " + input);
             }
             else if (response == 4)
             {
+                System.out.print("Enter new height:");
+                scanner.nextLine();
+                float input = scanner.nextFloat();
 
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE cryptid SET Height = ? WHERE CID = ?");
+                updateNamePS.setFloat(1, input);
+                updateNamePS.setInt(2, CID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Cryptid ID: " + CID + " to height: " + input);
+            }
+            else if (response == 5)
+            {
+                System.out.print("Which biome would you like to update to?\n" +
+                        "1. Land\n" +
+                        "2. Water\n" +
+                        "3. Sky\n");
+                scanner.nextLine();
+                int input = scanner.nextInt();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE cryptid SET Biome = ? WHERE CID = ?");
+                String biome = null;
+                if (input == 1)
+                {
+                    biome = "Land";
+                }
+                else if (input == 2)
+                {
+                    biome = "Water";
+                }
+                else if (input == 3)
+                {
+                    biome = "Sky";
+                }
+                updateNamePS.setString(1, biome);
+                updateNamePS.setInt(2, CID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Cryptid ID: " + CID + " to biome: " + biome);
+                
+            }
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void updateViewer() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you know the viewer's ID number?");
+        String idresponse = scanner.nextLine();
+
+        if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
+            searchViewers();
+        }
+
+        System.out.print("Enter Viewer ID number: ");
+        int VID = scanner.nextInt();
+
+        System.out.println("What would you like to update?");
+        System.out.println("1. Name\n" +
+                "2. Location\n" +
+                "3. Age\n" +
+                "4. Credentials\n");
+        int response = scanner.nextInt();
+
+        try
+        {
+            if(response == 1)
+            {
+                System.out.print("Enter new name:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updatePS = conn.prepareStatement("UPDATE viewer SET Viewer_Name = ? WHERE Viewer_ID = ?");
+                updatePS.setString(1, input);
+                updatePS.setInt(2, VID);
+                updatePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Viewer ID: " + VID + " to name: " + input);
+
+            }
+            else if (response == 2)
+            {
+                System.out.print("Enter new location:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE viewer SET Location = ? WHERE Viewer_ID = ?");
+                updateNamePS.setString(1, input);
+                updateNamePS.setInt(2, VID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Viewer ID: " + VID + " to location: " + input);
+            }
+            else if (response == 3)
+            {
+                System.out.print("Enter new age:");
+                scanner.nextLine();
+                int input = scanner.nextInt();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE viewer SET Age = ? WHERE Viewer_ID = ?");
+                updateNamePS.setInt(1, input);
+                updateNamePS.setInt(2, VID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Viewer ID: " + VID + " to Age: " + input);
+            }
+            else if (response == 4)
+            {
+                System.out.print("Enter new credentials:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE viewer SET Credentials = ? WHERE Viewer_ID = ?");
+                updateNamePS.setString(1, input);
+                updateNamePS.setInt(2, VID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Viewer ID: " + VID + " to Credentials: " + input);
             }
         }
 

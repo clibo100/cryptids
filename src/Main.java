@@ -76,6 +76,7 @@ public class Main {
                 dbconnect.updateCryptid();
                 break;
             case 2:
+                dbconnect.updateViewer();
                 break;
             case 3:
                 break;
