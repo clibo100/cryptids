@@ -9,36 +9,266 @@ import java.util.Scanner;
 public class Main {
 
     private static DatabaseConnection dbconnect = new DatabaseConnection();
-    private static Scanner scanner= new Scanner(System.in);
 
     public static void main(String[] args)
     {
         boolean cont = true;
 
+        Scanner scanner = new Scanner(System.in);
         System.out.println("WELCOME TO THE CRYPTID DATABASE\n");
 
         while (cont)
         {
             System.out.println("What would you like to do?");
-            System.out.println("1. View a Table");
+            System.out.println("1. View a Table\n" +
+                    "2. Search\n" +
+                    "3. Exit");
             int response = scanner.nextInt();
 
             switch (response)
             {
                 case 1:
-                    cont = printTable();
+                {
+                    printTable();
                     break;
+                }
+                case 2:
+                {
+                    searchTable();
+                    break;
+                }
+                case 3:
+                {
+                    cont = false;
+                    System.out.println("Thank you and stay Cryptid! :)");
+                    break;
+                }
                 default:
+                {
                     System.out.println("Invalid Request");
                     break;
+                }
+
             }
+            if (cont)
+            {
+                System.out.println("\nWould you like to continue?");
+                scanner.nextLine();
+                String contin = scanner.nextLine();
+                if ((contin.charAt(0) == 'n' || contin.charAt(0) == 'N'))
+                {
+                    System.out.println("Thank you and stay Cryptid! :)");
+                    cont = false;
+                }
+            }
+        }
+    }
+
+    private static void searchTable()
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("What would you like to search?");
+        System.out.println("1. Cryptids\n" +
+                "2. Viewers\n" +
+                "3. Publications\n" +
+                "4. Sightings\n" +
+                "5. Media\n" +
+                "6. Folklore\n" +
+                "7. Evidence");
+        int response = scanner.nextInt();
+
+        switch (response) {
+            case 1:
+                searchCryptids();
+                break;
+            case 2:
+                searchViewers();
+                break;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            default:
+                break;
 
         }
     }
 
-    private static boolean printTable()
+    private static void searchCryptids()
     {
-        System.out.println("Which table would you like to see?");
+        Scanner scanner = new Scanner(System.in);
+        Connection conn = dbconnect.getConn();
+        int count = 0;
+        PreparedStatement countPS, pstmt;
+        ResultSet getRS = null, countRS;
+        System.out.println("What would you like to search by?\n" +
+                "1. ID\n" +
+                "2. Name\n" +
+                "3. Biome");
+        int response = scanner.nextInt();
+        System.out.print("Enter search term:");
+        scanner.nextLine();
+        String query = scanner.nextLine();
+
+        try
+        {
+            if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM cryptid WHERE CID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM cryptid WHERE CID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 2)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM cryptid WHERE Cryptid_Name = ?");
+                countPS.setString(1, query);
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM cryptid WHERE Cryptid_Name = ?");
+                pstmt.setString(1, query);
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 3)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM cryptid WHERE Biome = ?");
+                countPS.setString(1, query);
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM cryptid WHERE Biome = ?");
+                pstmt.setString(1, query);
+                getRS = pstmt.executeQuery();
+            }
+
+            String[] names = {"ID Number", "Name", "Description", "Weight", "Height", "Biome"};
+            String[][] cryptids = new String[count][6];
+            int i = 0;
+            assert getRS != null;
+            while (getRS.next())
+            {
+                cryptids[i][0] = Integer.toString(getRS.getInt(1));
+                cryptids[i][1] = getRS.getString(2);
+                cryptids[i][2] = getRS.getString(3);
+                cryptids[i][3] = Float.toString(getRS.getFloat(4)) + " lbs";
+                cryptids[i][4] = Float.toString(getRS.getFloat(5)) + " ft";
+                cryptids[i][5] = getRS.getString(6);
+                i++;
+            }
+            TextTable cryptidTable = new TextTable(names, cryptids);
+            cryptidTable.printTable();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void searchViewers()
+    {
+        Scanner scanner = new Scanner(System.in);
+        Connection conn = dbconnect.getConn();
+        int count = 0;
+        PreparedStatement countPS, pstmt;
+        ResultSet getRS = null, countRS;
+        System.out.println("What would you like to search by?\n" +
+                "1. ID\n" +
+                "2. Name\n" +
+                "3. Age\n" +
+                "4. Credentials");
+        int response = scanner.nextInt();
+        System.out.print("Enter search term:");
+        scanner.nextLine();
+        String query = scanner.nextLine();
+
+        try
+        {
+            if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM viewer WHERE Viewer_ID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM viewer WHERE Viewer_ID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 2)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM viewer WHERE Viewer_Name = ?");
+                countPS.setString(1, query);
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM viewer WHERE Viewer_Name = ?");
+                pstmt.setString(1, query);
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 3)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM viewer WHERE Age = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM viewer WHERE Age = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 4)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM viewer WHERE Credentials = ?");
+                countPS.setString(1, query);
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM viewer WHERE Credentials = ?");
+                pstmt.setString(1, query);
+                getRS = pstmt.executeQuery();
+            }
+
+            String[] names = {"ID Number", "Name", "Location", "Age", "Number of Sightings", "Credentials", "Number of Publications"};
+            String[][] viewers = new String[count][7];
+            int i = 0;
+            assert getRS != null;
+            while (getRS.next())
+            {
+                viewers[i][0] = Integer.toString(getRS.getInt(1));
+                viewers[i][1] = getRS.getString(2);
+                viewers[i][2] = getRS.getString(3);
+                viewers[i][3] = Integer.toString(getRS.getInt(4));
+                viewers[i][4] = Float.toString(getRS.getFloat(5));
+                viewers[i][5] = getRS.getString(6);
+                viewers[i][6] = Integer.toString(getRS.getInt(7));
+                i++;
+            }
+            TextTable viewerTable = new TextTable(names, viewers);
+            viewerTable.printTable();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void printTable()
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\nWhich table would you like to see?");
         System.out.println("1. Cryptids\n" +
                 "2. Viewers\n" +
                 "3. Publications\n" +
@@ -73,18 +303,6 @@ public class Main {
                 break;
             default:
                 System.out.println("Invalid Input");
-        }
-        System.out.println("Would you like to continue?");
-        scanner.nextLine();
-        String cont = scanner.nextLine();
-        if (cont.charAt(0) == 'y' || cont.charAt(0) == 'Y')
-        {
-            return true;
-        }
-        else
-        {
-            System.out.println("Thank you and stay Cryptid! :)");
-            return false;
         }
     }
 
