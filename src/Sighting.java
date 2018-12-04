@@ -1,12 +1,13 @@
 import java.util.Date;
 
+@SuppressWarnings("unused")
 public class Sighting {
 
-    int CID, viewerID;
-    Date date;
-    float latitude, longitude;
+    private int CID, viewerID;
+    private Date date;
+    private float latitude, longitude;
 
-    public Sighting(int CID, int viewerID, Date date, float latitude, float longitude) {
+    Sighting(int CID, int viewerID, Date date, float latitude, float longitude) {
         this.CID = CID;
         this.viewerID = viewerID;
         this.date = date;
@@ -14,7 +15,7 @@ public class Sighting {
         this.longitude = longitude;
     }
 
-    public int getCID() {
+    int getCID() {
         return CID;
     }
 
@@ -22,7 +23,7 @@ public class Sighting {
         this.CID = CID;
     }
 
-    public int getViewerID() {
+    int getViewerID() {
         return viewerID;
     }
 
@@ -30,7 +31,7 @@ public class Sighting {
         this.viewerID = viewerID;
     }
 
-    public Date getDate() {
+    Date getDate() {
         return date;
     }
 
@@ -38,7 +39,7 @@ public class Sighting {
         this.date = date;
     }
 
-    public float getLatitude() {
+    float getLatitude() {
         return latitude;
     }
 
@@ -46,7 +47,7 @@ public class Sighting {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    float getLongitude() {
         return longitude;
     }
 

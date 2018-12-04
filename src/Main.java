@@ -19,7 +19,8 @@ public class Main {
             System.out.println("1. View a Table\n" +
                     "2. Search\n" +
                     "3. Edit existing Record\n" +
-                    "4. Exit");
+                    "4. Create a new Entry\n" +
+                    "5. Exit");
             int response = scanner.nextInt();
 
             switch (response)
@@ -37,6 +38,10 @@ public class Main {
                     break;
                 }
                 case 4: {
+                    createNewEntry();
+                    break;
+                }
+                case 5: {
                     cont = false;
                     System.out.println("Thank you and stay Cryptic! :)");
                     break;
@@ -56,6 +61,46 @@ public class Main {
                     cont = false;
                 }
             }
+        }
+    }
+
+    private static void createNewEntry() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("What would you like to create?");
+        System.out.println("1. Cryptid\n" +
+                "2. Viewer\n" +
+                "3. Publication\n" +
+                "4. Sighting\n" +
+                "5. Media\n" +
+                "6. Folklore\n" +
+                "7. Evidence");
+        int response = scanner.nextInt();
+
+        switch (response) {
+            case 1:
+                //put method for making new cryptid here
+                break;
+            case 2:
+                //put method for making new viewer here
+                break;
+            case 3:
+                //put method for making new publication here
+                break;
+            case 4:
+                //put method for making new sighting here
+                break;
+            case 5:
+                //put method for making new media here
+                break;
+            case 6:
+                //put method for making new folklore here
+                break;
+            case 7:
+                //put method for making new evidence here
+                break;
+            default:
+                break;
+
         }
     }
 

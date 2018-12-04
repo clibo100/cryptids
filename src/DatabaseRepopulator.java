@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
-@SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection"})
+@SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection", "unused"})
 public class DatabaseRepopulator {
 
 

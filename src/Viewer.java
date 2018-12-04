@@ -1,9 +1,10 @@
+@SuppressWarnings("unused")
 public class Viewer {
 
-    String name, location, credentials;
-    int age, publications, sightings;
+    private String name, location, credentials;
+    private int age, publications, sightings;
 
-    public Viewer(String name, String location, String credentials, int age, int publications, int sightings) {
+    Viewer(String name, String location, String credentials, int age, int publications, int sightings) {
         this.name = name;
         this.location = location;
         this.credentials = credentials;
@@ -16,7 +17,7 @@ public class Viewer {
 
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
@@ -24,7 +25,7 @@ public class Viewer {
         this.name = name;
     }
 
-    public String getLocation() {
+    String getLocation() {
         return location;
     }
 
@@ -32,7 +33,7 @@ public class Viewer {
         this.location = location;
     }
 
-    public String getCredentials() {
+    String getCredentials() {
         return credentials;
     }
 
@@ -40,7 +41,7 @@ public class Viewer {
         this.credentials = credentials;
     }
 
-    public int getAge() {
+    int getAge() {
         return age;
     }
 
@@ -48,7 +49,7 @@ public class Viewer {
         this.age = age;
     }
 
-    public int getPublications() {
+    int getPublications() {
         return publications;
     }
 
@@ -56,7 +57,7 @@ public class Viewer {
         this.publications = publications;
     }
 
-    public int getSightings() {
+    int getSightings() {
         return sightings;
     }
 
