@@ -4,13 +4,14 @@ import dnl.utils.text.table.TextTable;
 
 import java.util.Random;
 
-@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection", "unused"})
+@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection", "unused", "Duplicates"})
 public class Main {
 
     private static DatabaseConnection dbconnect = new DatabaseConnection();
 
-    public static void main(String[] args) {
-        printAllPublications();
+    public static void main(String[] args)
+    {
+        printAllEvidence();
     }
 
     private static void printAllCryptids()
@@ -116,6 +117,7 @@ public class Main {
         }
 
     }
+
     private static void printAllPublications()
     {
         System.out.println("All Publications: ");
@@ -144,6 +146,105 @@ public class Main {
             }
             TextTable publicationsTable = new TextTable(names, publications);
             publicationsTable.printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void printAllMedia()
+    {
+        System.out.println("All Media: ");
+        Connection conn = dbconnect.getConn();
+        String[] names = {"Cryptid", "Title", "Year", "Format", "Rating"};
+        try {
+            PreparedStatement mediaPS = conn.prepareStatement("SELECT COUNT(*) FROM media");
+            ResultSet mediaRS = mediaPS.executeQuery();
+            mediaRS.next();
+            int mediaCount = mediaRS.getInt(1);
+
+            String[][] media = new String[mediaCount][5];
+            PreparedStatement getMedia = conn.prepareStatement("select c.Cryptid_Name, m.Title, m.Year, m.Format, m.Rating\n" +
+                    "FROM media m, cryptid c\n" +
+                    "WHERE c.CID = m.CID");
+            ResultSet getRS = getMedia.executeQuery();
+            int i = 0;
+            while (getRS.next())
+            {
+                media[i][0] = getRS.getString(1);
+                media[i][1] = getRS.getString(2);
+                media[i][2] = Integer.toString(getRS.getInt(3));
+                media[i][3] = getRS.getString(4);
+                media[i][4] = Integer.toString(getRS.getInt(5));
+                i++;
+            }
+            TextTable mediaTable = new TextTable(names, media);
+            mediaTable.printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private static void printAllFolklore()
+    {
+        System.out.println("All Media: ");
+        Connection conn = dbconnect.getConn();
+        String[] names = {"Cryptid", "Folklore", "Year", "Location"};
+        try {
+            PreparedStatement folklorePS = conn.prepareStatement("SELECT COUNT(*) FROM folklore");
+            ResultSet folkloreRS = folklorePS.executeQuery();
+            folkloreRS.next();
+            int folkloreCount = folkloreRS.getInt(1);
+
+            String[][] folklore = new String[folkloreCount][4];
+            PreparedStatement getFolklore = conn.prepareStatement("select c.Cryptid_Name, f.Folklore, f.Year, f.Location\n" +
+                    "FROM cryptid c, folklore f\n" +
+                    "WHERE c.CID = f.CID");
+            ResultSet getRS = getFolklore.executeQuery();
+            int i = 0;
+            while (getRS.next())
+            {
+                folklore[i][0] = getRS.getString(1);
+                folklore[i][1] = getRS.getString(2);
+                folklore[i][2] = Integer.toString(getRS.getInt(3));
+                folklore[i][3] = getRS.getString(4);
+                i++;
+            }
+            TextTable folkloreTable = new TextTable(names, folklore);
+            folkloreTable.printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void printAllEvidence()
+    {
+        System.out.println("All Evidence: ");
+        Connection conn = dbconnect.getConn();
+        String[] names = {"Cryptid", "Date", "Evidence", "Location"};
+        try {
+            PreparedStatement evidencePS = conn.prepareStatement("SELECT COUNT(*) FROM evidence");
+            ResultSet evidenceRS = evidencePS.executeQuery();
+            evidenceRS.next();
+            int evidenceCount = evidenceRS.getInt(1);
+
+            String[][] evidence = new String[evidenceCount][4];
+            PreparedStatement getEvidence = conn.prepareStatement("select c.Cryptid_Name, e.Date, e.Medium, e.Location\n" +
+                    "FROM cryptid c, evidence e\n" +
+                    "WHERE c.CID = e.CID");
+            ResultSet getRS = getEvidence.executeQuery();
+            int i = 0;
+            while (getRS.next())
+            {
+                evidence[i][0] = getRS.getString(1);
+                evidence[i][1] = String.valueOf(getRS.getDate(2));
+                evidence[i][2] = getRS.getString(3);
+                evidence[i][3] = getRS.getString(4);
+                i++;
+            }
+            TextTable evidenceTable = new TextTable(names, evidence);
+            evidenceTable.printTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -390,7 +491,7 @@ public class Main {
             //generate a hundred pieces of evidence
             PreparedStatement insertEvidence = conn.prepareStatement("INSERT INTO evidence VALUES (?, ?, ?, ?)");
             for (int i = 0; i < 100; ++i) {
-                insertEvidence.setInt(1, rand.nextInt(cryptidCount));
+                insertEvidence.setInt(1, rand.nextInt(cryptidCount) + 1);
 
                 java.sql.Date theDate = new java.sql.Date(faker.date().birthday(1, 80).getTime());
                 insertEvidence.setDate(2, theDate);
@@ -430,7 +531,7 @@ public class Main {
             //generate a hundred pieces of folklore
             PreparedStatement insertFolklore = conn.prepareStatement("INSERT INTO folklore VALUES (?, ?, ?, ?)");
             for (int i = 0; i < 100; ++i) {
-                insertFolklore.setInt(1, rand.nextInt(cryptidCount));
+                insertFolklore.setInt(1, rand.nextInt(cryptidCount) + 1);
 
                 insertFolklore.setString(2, folklore[rand.nextInt(folklore.length)]);
 
@@ -448,8 +549,7 @@ public class Main {
         System.out.println("Generation Complete");
     }
 
-    private static void GenerateHundredMedia()
-    {
+    private static void GenerateHundredMedia() {
         System.out.println("Generating Media...");
         //make connection
         Connection conn = dbconnect.getConn();
@@ -470,7 +570,7 @@ public class Main {
             //insert 100 random media pieces
             for (int i = 0; i < 100; ++i)
             {
-                insertMedia.setInt(1, rand.nextInt(cryptidCount));
+                insertMedia.setInt(1, rand.nextInt(cryptidCount) + 1);
                 insertMedia.setString(2, faker.book().title());
                 insertMedia.setInt(3, rand.nextInt(100)+1900);
                 insertMedia.setString(4, format[rand.nextInt(format.length)]);
