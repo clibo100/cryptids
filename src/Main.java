@@ -40,7 +40,7 @@ public class Main {
                 case 3:
                 {
                     cont = false;
-                    System.out.println("Thank you and stay Cryptid! :)");
+                    System.out.println("Thank you and stay Cryptic! :)");
                     break;
                 }
                 default:
@@ -57,7 +57,7 @@ public class Main {
                 String contin = scanner.nextLine();
                 if ((contin.charAt(0) == 'n' || contin.charAt(0) == 'N'))
                 {
-                    System.out.println("Thank you and stay Cryptid! :)");
+                    System.out.println("Thank you and stay Cryptic! :)");
                     cont = false;
                 }
             }
@@ -85,6 +85,8 @@ public class Main {
                 searchViewers();
                 break;
             case 3:
+                searchPublications();
+                break;
             case 4:
             case 5:
             case 6:
@@ -259,6 +261,96 @@ public class Main {
             TextTable viewerTable = new TextTable(names, viewers);
             viewerTable.printTable();
         }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void searchPublications()
+    {
+        Scanner scanner = new Scanner(System.in);
+        Connection conn = dbconnect.getConn();
+        int count = 0;
+        PreparedStatement countPS, pstmt;
+        ResultSet getRS = null, countRS;
+        System.out.println("What would you like to search by?\n" +
+                "1. Viewer ID\n" +
+                "2. Title\n" +
+                "3. Year\n" +
+                "4. Publisher");
+        int response = scanner.nextInt();
+        System.out.print("Enter search term:");
+        scanner.nextLine();
+        String query = scanner.nextLine();
+
+        try
+        {
+            if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM publications WHERE Viewer_ID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM publications WHERE Viewer_ID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 2)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM publications WHERE Publication = ?");
+                countPS.setString(1, query);
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM publications WHERE Publication = ?");
+                pstmt.setString(1, query);
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 3)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM publications WHERE Year = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM publications WHERE Year = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if (response == 4)
+            {
+                countPS = conn.prepareStatement("SELECT COUNT(*) FROM publications WHERE Publisher = ?");
+                countPS.setString(1, query);
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM publications WHERE Publisher = ?");
+                pstmt.setString(1, query);
+                getRS = pstmt.executeQuery();
+            }
+
+            String[] names = {"Viewer ID Number", "Title", "Publisher", "Year"};
+            String[][] publications = new String[count][4];
+            int i = 0;
+            assert getRS != null;
+            while (getRS.next())
+            {
+                publications[i][0] = Integer.toString(getRS.getInt(1));
+                publications[i][1] = getRS.getString(2);
+                publications[i][3] = Integer.toString(getRS.getInt(3));
+                publications[i][2] = getRS.getString(4);
+                i++;
+            }
+            TextTable publicationsTable = new TextTable(names, publications);
+            publicationsTable.printTable();
+        }
+
 
         catch (SQLException e) {
             e.printStackTrace();
