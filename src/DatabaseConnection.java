@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-@SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection", "WrapperTypeMayBePrimitive"})
+@SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection", "WrapperTypeMayBePrimitive", "unused"})
 class DatabaseConnection {
 
     private static Connection conn;
@@ -21,6 +21,16 @@ class DatabaseConnection {
 
     Connection getConn() {
         return conn;
+    }
+
+    static void getNewConn()
+    {
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cryptiddb", "tester", "tester");
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     static void searchCryptids()
@@ -198,10 +208,11 @@ class DatabaseConnection {
         PreparedStatement countPS, pstmt;
         ResultSet getRS = null, countRS;
         System.out.println("What would you like to search by?\n" +
-                "1. Viewer ID\n" +
-                "2. Title\n" +
-                "3. Year\n" +
-                "4. Publisher");
+                "1. Publication ID" +
+                "2. Viewer ID\n" +
+                "3. Title\n" +
+                "4. Year\n" +
+                "5. Publisher");
         int response = scanner.nextInt();
         System.out.print("Enter search term:");
         scanner.nextLine();
@@ -210,6 +221,18 @@ class DatabaseConnection {
         try
         {
             if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM publications WHERE Publication_ID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM publications WHERE Publication_ID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            if(response == 2)
             {
                 countPS = conn.prepareStatement("SELECT  COUNT(*) FROM publications WHERE Viewer_ID = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -221,7 +244,7 @@ class DatabaseConnection {
                 pstmt.setInt(1, Integer.parseInt(query));
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 2)
+            else if (response == 3)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM publications WHERE Publication = ?");
                 countPS.setString(1, query);
@@ -233,7 +256,7 @@ class DatabaseConnection {
                 pstmt.setString(1, query);
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 3)
+            else if (response == 4)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM publications WHERE Year = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -245,7 +268,7 @@ class DatabaseConnection {
                 pstmt.setInt(1, Integer.parseInt(query));
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 4)
+            else if (response == 5)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM publications WHERE Publisher = ?");
                 countPS.setString(1, query);
@@ -258,16 +281,17 @@ class DatabaseConnection {
                 getRS = pstmt.executeQuery();
             }
 
-            String[] names = {"Viewer ID Number", "Title", "Publisher", "Year"};
-            String[][] publications = new String[count][4];
+            String[] names = {"Publicstion ID", "Viewer ID", "Title", "Publisher", "Year"};
+            String[][] publications = new String[count][5];
             int i = 0;
             assert getRS != null;
             while (getRS.next())
             {
                 publications[i][0] = Integer.toString(getRS.getInt(1));
-                publications[i][1] = getRS.getString(2);
-                publications[i][3] = Integer.toString(getRS.getInt(3));
-                publications[i][2] = getRS.getString(4);
+                publications[i][1] = Integer.toString(getRS.getInt(2));
+                publications[i][2] = getRS.getString(3);
+                publications[i][3] = Integer.toString(getRS.getInt(4));
+                publications[i][4] = getRS.getString(5);
                 i++;
             }
             TextTable publicationsTable = new TextTable(names, publications);
@@ -287,9 +311,10 @@ class DatabaseConnection {
         PreparedStatement countPS, pstmt;
         ResultSet getRS = null, countRS;
         System.out.println("What would you like to search by?\n" +
-                "1. Cryptid ID\n" +
-                "2. Date (YYYY-MM-DD)\n" +
-                "3. Viewer ID");
+                "1. Sighting ID\n" +
+                "2. Cryptid ID\n" +
+                "3. Date (YYYY-MM-DD)\n" +
+                "4. Viewer ID");
         int response = scanner.nextInt();
         System.out.print("Enter search term:");
         scanner.nextLine();
@@ -298,6 +323,18 @@ class DatabaseConnection {
         try
         {
             if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM sightings WHERE Sighting_ID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM sightings WHERE Sighting_ID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if(response == 2)
             {
                 countPS = conn.prepareStatement("SELECT  COUNT(*) FROM sightings WHERE CID = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -309,7 +346,7 @@ class DatabaseConnection {
                 pstmt.setInt(1, Integer.parseInt(query));
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 2)
+            else if (response == 3)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM sightings WHERE Date_Seen = ?");
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -324,7 +361,7 @@ class DatabaseConnection {
                 pstmt.setDate(1, sqlDate);
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 3)
+            else if (response == 4)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM sightings WHERE Viewer_ID = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -337,17 +374,18 @@ class DatabaseConnection {
                 getRS = pstmt.executeQuery();
             }
 
-            String[] names = {"Cryptid ID", "Latitude", "Longitude", "Date Seen", "Viewer ID"};
-            String[][] sightings = new String[count][5];
+            String[] names = {"Sighting ID", "Cryptid ID", "Latitude", "Longitude", "Date Seen", "Viewer ID"};
+            String[][] sightings = new String[count][6];
             int i = 0;
             assert getRS != null;
             while (getRS.next())
             {
                 sightings[i][0] = Integer.toString(getRS.getInt(1));
-                sightings[i][1] = Float.toString(getRS.getFloat(2));
+                sightings[i][1] = Integer.toString(getRS.getInt(2));
                 sightings[i][2] = Float.toString(getRS.getFloat(3));
-                sightings[i][3] = String.valueOf(getRS.getDate(4));
-                sightings[i][4] = Integer.toString(getRS.getInt(5));
+                sightings[i][3] = Float.toString(getRS.getFloat(4));
+                sightings[i][4] = String.valueOf(getRS.getDate(5));
+                sightings[i][5] = Integer.toString(getRS.getInt(6));
                 i++;
             }
             TextTable sightingsTable = new TextTable(names, sightings);
@@ -699,15 +737,15 @@ class DatabaseConnection {
     static void printAllSightings()
     {
         System.out.println("All Sightings: ");
-        String[] names = {"Cryptid Name", "Latitude", "Longitude", "Date Seen", "Viewer Name"};
+        String[] names = {"Sighting ID", "Cryptid Name", "Latitude", "Longitude", "Date Seen", "Viewer Name"};
         try {
             PreparedStatement sightingPS = conn.prepareStatement("SELECT COUNT(*) FROM sightings");
             ResultSet sightingsRS = sightingPS.executeQuery();
             sightingsRS.next();
             int sightingCount = sightingsRS.getInt(1);
 
-            String[][] sightings = new String[sightingCount][5];
-            PreparedStatement getSightings = conn.prepareStatement("SELECT c.Cryptid_Name, s.Latitude, s.Longitude, s.Date_Seen, v.Viewer_Name\n" +
+            String[][] sightings = new String[sightingCount][6];
+            PreparedStatement getSightings = conn.prepareStatement("SELECT s.Sighting_ID, c.Cryptid_Name, s.Latitude, s.Longitude, s.Date_Seen, v.Viewer_Name\n" +
                     "FROM sightings s\n" +
                     "LEFT JOIN cryptid c\n" +
                     "ON s.CID = c.CID\n" +
@@ -717,11 +755,12 @@ class DatabaseConnection {
             int i = 0;
             while (getRS.next())
             {
-                sightings[i][0] = getRS.getString(1);
-                sightings[i][1] = Float.toString(getRS.getFloat(2));
+                sightings[i][0] = Integer.toString(getRS.getInt(1));
+                sightings[i][1] = getRS.getString(2);
                 sightings[i][2] = Float.toString(getRS.getFloat(3));
-                sightings[i][3] = String.valueOf(getRS.getDate(4));
-                sightings[i][4] = getRS.getString(5);
+                sightings[i][3] = Float.toString(getRS.getFloat(4));
+                sightings[i][4] = String.valueOf(getRS.getDate(5));
+                sightings[i][5] = getRS.getString(6);
                 i++;
             }
             TextTable sightingsTable = new TextTable(names, sightings);
@@ -735,26 +774,27 @@ class DatabaseConnection {
     static void printAllPublications()
     {
         System.out.println("All Publications: ");
-        String[] names = {"Author", "Title", "Year", "Publisher"};
+        String[] names = {"Publication ID", "Author", "Title", "Year", "Publisher"};
         try {
             PreparedStatement publicationPS = conn.prepareStatement("SELECT COUNT(*) FROM publications");
             ResultSet publicationRS = publicationPS.executeQuery();
             publicationRS.next();
             int publicationCount = publicationRS.getInt(1);
 
-            String[][] publications = new String[publicationCount][4];
-            PreparedStatement getPublications = conn.prepareStatement("SELECT v.Viewer_Name, p.Publication, p.Year, p.Publisher\n" +
-                    "FROM publications p\n" +
-                    "LEFT JOIN viewer v\n" +
+            String[][] publications = new String[publicationCount][5];
+            PreparedStatement getPublications = conn.prepareStatement("SELECT p.Publication_ID, v.Viewer_Name, p.Publication, p.Year, p.Publisher " +
+                    "FROM publications p " +
+                    "LEFT JOIN viewer v " +
                     "ON v.Viewer_ID = p.Viewer_ID");
             ResultSet getRS = getPublications.executeQuery();
             int i = 0;
             while (getRS.next())
             {
-                publications[i][0] = getRS.getString(1);
+                publications[i][0] = Integer.toString(getRS.getInt(1));
                 publications[i][1] = getRS.getString(2);
-                publications[i][2] = Integer.toString(getRS.getInt(3));
-                publications[i][3] = getRS.getString(4);
+                publications[i][2] = getRS.getString(3);
+                publications[i][3] = Integer.toString(getRS.getInt(4));
+                publications[i][4] = getRS.getString(5);
                 i++;
             }
             TextTable publicationsTable = new TextTable(names, publications);
@@ -862,7 +902,8 @@ class DatabaseConnection {
 
     }
 
-    static void updateCryptid() {
+    static void updateCryptid()
+    {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Do you know the cryptid's ID number?");
@@ -980,7 +1021,8 @@ class DatabaseConnection {
         }
     }
 
-    static void updateViewer() {
+    static void updateViewer()
+    {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Do you know the viewer's ID number?");
@@ -1058,6 +1100,154 @@ class DatabaseConnection {
                 conn.commit();
 
                 System.out.println("Updated Viewer ID: " + VID + " to Credentials: " + input);
+            }
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void updateSighting()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you know the sighting's ID number?");
+        String idresponse = scanner.nextLine();
+
+        if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
+            searchSightings();
+        }
+
+        System.out.print("Enter Sighting ID number: ");
+        int ID = scanner.nextInt();
+
+        System.out.println("What would you like to update?");
+        System.out.println("1. Viewer ID\n" +
+                "2. Cryptid ID\n");
+        int response = scanner.nextInt();
+
+        try
+        {
+            if(response == 1)
+            {
+                System.out.print("Enter new viewer ID:");
+                scanner.nextLine();
+                int input = scanner.nextInt();
+
+                PreparedStatement getOldID = conn.prepareStatement("SELECT Viewer_ID from sightings where Sighting_ID = ?");
+                getOldID.setInt(1, ID);
+                ResultSet getIDRS = getOldID.executeQuery();
+                getIDRS.next();
+                int oldID = getIDRS.getInt(1);
+
+                System.out.println("OLD: " + oldID);
+
+                PreparedStatement updatePS = conn.prepareStatement("UPDATE sightings SET Viewer_ID = ? WHERE Sighting_ID = ?");
+                updatePS.setInt(1, input);
+                updatePS.setInt(2, ID);
+                updatePS.executeUpdate();
+
+                PreparedStatement updateOld = conn.prepareStatement("Update viewer set Number_of_Sightings = Number_of_Sightings - 1 Where viewer_ID = ?");
+                updateOld.setInt(1, oldID);
+                updateOld.executeUpdate();
+
+                PreparedStatement updateNew = conn.prepareStatement("Update viewer set Number_of_Sightings = Number_of_Sightings + 1 Where viewer_ID = ?");
+                updateNew.setInt(1, input);
+                updateNew.executeUpdate();
+
+                conn.commit();
+
+                System.out.println("Updated Sighting ID: " + ID + " to Viewer ID: " + input);
+
+            }
+            else if (response == 2)
+            {
+                System.out.print("Enter new Cryptid ID:");
+                scanner.nextLine();
+                int input = scanner.nextInt();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE sightings SET CID = ? WHERE Sighting_ID = ?");
+                updateNamePS.setInt(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Sighting ID: " + ID + " to Cryptid ID: " + input);
+            }
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void updatePublication()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you know the publication's ID number?");
+        String idresponse = scanner.nextLine();
+
+        if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
+            searchPublications();
+        }
+
+        System.out.print("Enter Publication ID number: ");
+        int ID = scanner.nextInt();
+
+        System.out.println("What would you like to update?");
+        System.out.println("1. Author\n" +
+                "2. Title\n" +
+                "3. Publisher\n");
+        int response = scanner.nextInt();
+
+        try
+        {
+            if(response == 1)
+            {
+                System.out.print("Enter new Author's viewer ID:");
+                scanner.nextLine();
+                int input = scanner.nextInt();
+
+                PreparedStatement getOldID = conn.prepareStatement("SELECT Viewer_ID from publications where Publication_ID = ?");
+                getOldID.setInt(1, ID);
+                ResultSet getIDRS = getOldID.executeQuery();
+                getIDRS.next();
+                int oldID = getIDRS.getInt(1);
+                conn.commit();
+
+                PreparedStatement updatePS = conn.prepareStatement("UPDATE publications SET Viewer_ID = ? WHERE Publication_ID = ?");
+                updatePS.setInt(1, input);
+                updatePS.setInt(2, ID);
+                updatePS.executeUpdate();
+
+                PreparedStatement updateOld = conn.prepareStatement("Update viewer set Number_of_Publications = Number_of_Publications-1 Where viewer_ID = ?");
+                updateOld.setInt(1, oldID);
+                updateOld.executeUpdate();
+
+                PreparedStatement updateNew = conn.prepareStatement("Update viewer set Number_of_Publications = Number_of_Publications+1 Where viewer_ID = ?");
+                updateNew.setInt(1, input);
+                updateNew.executeUpdate();
+
+                conn.commit();
+
+                System.out.println("Updated Publication ID: " + ID + " to Viewer ID: " + input);
+
+            }
+            else if (response == 2)
+            {
+                System.out.print("Enter new Title:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE publications SET Publication = ? WHERE Publication_ID = ?");
+                updateNamePS.setString(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Publication ID: " + ID + " to Title: " + input);
             }
         }
 

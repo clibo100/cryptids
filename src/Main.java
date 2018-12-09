@@ -10,6 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         boolean cont = true;
+        DatabaseRepopulator dr = new DatabaseRepopulator();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("WELCOME TO THE CRYPTID DATABASE\n");
@@ -124,8 +125,10 @@ public class Main {
                 dbconnect.updateViewer();
                 break;
             case 3:
+                dbconnect.updatePublication();
                 break;
             case 4:
+                dbconnect.updateSighting();
                 break;
             case 5:
                 break;

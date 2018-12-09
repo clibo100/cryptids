@@ -119,7 +119,7 @@ public class DatabaseRepopulator {
         }
     }
 
-    private static void GenerateSightings() {
+    static void GenerateSightings() {
         Random rand = new Random();
         Faker faker = new Faker();
 
@@ -130,7 +130,7 @@ public class DatabaseRepopulator {
             Connection conn = dbconnect.getConn();
 
             //prepare statement for inserting sighting
-            PreparedStatement pstmt = conn.prepareStatement("insert into sightings values (?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = conn.prepareStatement("insert into sightings values (null, ?, ?, ?, ?, ?)");
 
             //get the number of cryptids in the database used later to select random cryptids
             PreparedStatement cryptidPS = conn.prepareStatement("SELECT COUNT(*) FROM cryptid");
@@ -176,7 +176,7 @@ public class DatabaseRepopulator {
         }
     }
 
-    private static void GeneratePublications() {
+    static void GeneratePublications() {
         try {
             System.out.println("Generating Publications for Viewers...");
 
@@ -184,7 +184,7 @@ public class DatabaseRepopulator {
             Connection conn = dbconnect.getConn();
 
             //prepare statement for inserting new publication
-            PreparedStatement pstmt = conn.prepareStatement("insert into publications values (?, ?, ?, ?)");
+            PreparedStatement pstmt = conn.prepareStatement("insert into publications values (null, ?, ?, ?, ?)");
 
             //get all the viewers
             PreparedStatement viewerPS = conn.prepareStatement("SELECT * FROM viewer");
