@@ -208,7 +208,7 @@ class DatabaseConnection {
         PreparedStatement countPS, pstmt;
         ResultSet getRS = null, countRS;
         System.out.println("What would you like to search by?\n" +
-                "1. Publication ID" +
+                "1. Publication ID\n" +
                 "2. Viewer ID\n" +
                 "3. Title\n" +
                 "4. Year\n" +
@@ -405,11 +405,12 @@ class DatabaseConnection {
         PreparedStatement countPS, pstmt;
         ResultSet getRS = null, countRS;
         System.out.println("What would you like to search by?\n" +
-                "1. Cryptid ID\n" +
-                "2. Title\n" +
-                "3. Year\n" +
-                "4. Format\n" +
-                "5. Rating");
+                "1. Media ID\n" +
+                "2. Cryptid ID\n" +
+                "3. Title\n" +
+                "4. Year\n" +
+                "5. Format\n" +
+                "6. Rating");
         int response = scanner.nextInt();
         System.out.print("Enter search term:");
         scanner.nextLine();
@@ -418,6 +419,18 @@ class DatabaseConnection {
         try
         {
             if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM media WHERE Media_ID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM media WHERE Media_ID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if(response == 2)
             {
                 countPS = conn.prepareStatement("SELECT  COUNT(*) FROM media WHERE CID = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -429,7 +442,7 @@ class DatabaseConnection {
                 pstmt.setInt(1, Integer.parseInt(query));
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 2)
+            else if (response == 3)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM media WHERE Title = ?");
                 countPS.setString(1, query);
@@ -441,7 +454,7 @@ class DatabaseConnection {
                 pstmt.setString(1, query);
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 3)
+            else if (response == 4)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM media WHERE Year = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -453,7 +466,7 @@ class DatabaseConnection {
                 pstmt.setInt(1, Integer.parseInt(query));
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 4)
+            else if (response == 5)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM media WHERE Format = ?");
                 countPS.setString(1, query);
@@ -465,7 +478,7 @@ class DatabaseConnection {
                 pstmt.setString(1, query);
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 5)
+            else if (response == 6)
             {
                 countPS = conn.prepareStatement("SELECT  COUNT(*) FROM media WHERE Rating = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -478,17 +491,18 @@ class DatabaseConnection {
                 getRS = pstmt.executeQuery();
             }
 
-            String[] names = {"Cryptid ID", "Title", "Year", "Format", "Rating"};
-            String[][] media = new String[count][5];
+            String[] names = {"Media ID", "Cryptid ID", "Title", "Year", "Format", "Rating"};
+            String[][] media = new String[count][6];
             int i = 0;
             assert getRS != null;
             while (getRS.next())
             {
                 media[i][0] = Integer.toString(getRS.getInt(1));
-                media[i][1] = getRS.getString(2);
-                media[i][2] = Integer.toString(getRS.getInt(3));
-                media[i][3] = getRS.getString(4);
-                media[i][4] = Integer.toString(getRS.getInt(5));
+                media[i][1] = Integer.toString(getRS.getInt(2));
+                media[i][2] = getRS.getString(3);
+                media[i][3] = Integer.toString(getRS.getInt(4));
+                media[i][4] = getRS.getString(5);
+                media[i][5] = Integer.toString(getRS.getInt(6));
                 i++;
             }
             TextTable mediaTable = new TextTable(names, media);
@@ -508,10 +522,11 @@ class DatabaseConnection {
         PreparedStatement countPS, pstmt;
         ResultSet getRS = null, countRS;
         System.out.println("What would you like to search by?\n" +
-                "1. Cryptid ID\n" +
-                "2. Format\n" +
-                "3. Year\n" +
-                "4. Location");
+                "1. Folklore ID\n" +
+                "2. Cryptid ID\n" +
+                "3. Format\n" +
+                "4. Year\n" +
+                "5. Location");
         int response = scanner.nextInt();
         System.out.print("Enter search term:");
         scanner.nextLine();
@@ -520,6 +535,18 @@ class DatabaseConnection {
         try
         {
             if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM folklore WHERE Folklore_ID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM folklore WHERE Folklore_ID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if(response == 2)
             {
                 countPS = conn.prepareStatement("SELECT  COUNT(*) FROM folklore WHERE CID = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -531,7 +558,7 @@ class DatabaseConnection {
                 pstmt.setInt(1, Integer.parseInt(query));
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 2)
+            else if (response == 3)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM folklore WHERE Folklore = ?");
                 countPS.setString(1, query);
@@ -543,7 +570,7 @@ class DatabaseConnection {
                 pstmt.setString(1, query);
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 3)
+            else if (response == 4)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM folklore WHERE Year = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -555,7 +582,7 @@ class DatabaseConnection {
                 pstmt.setInt(1, Integer.parseInt(query));
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 4)
+            else if (response == 5)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM folklore WHERE Location = ?");
                 countPS.setString(1, query);
@@ -568,16 +595,17 @@ class DatabaseConnection {
                 getRS = pstmt.executeQuery();
             }
 
-            String[] names = {"Cryptid ID", "Format", "Year", "Location"};
-            String[][] folklore = new String[count][4];
+            String[] names = {"Folklore ID", "Cryptid ID", "Format", "Year", "Location"};
+            String[][] folklore = new String[count][5];
             int i = 0;
             assert getRS != null;
             while (getRS.next())
             {
                 folklore[i][0] = Integer.toString(getRS.getInt(1));
-                folklore[i][1] = getRS.getString(2);
-                folklore[i][2] = Integer.toString(getRS.getInt(3));
-                folklore[i][3] = getRS.getString(4);
+                folklore[i][1] = Integer.toString(getRS.getInt(2));
+                folklore[i][2] = getRS.getString(3);
+                folklore[i][3] = Integer.toString(getRS.getInt(4));
+                folklore[i][4] = getRS.getString(5);
                 i++;
             }
             TextTable folkloreTable = new TextTable(names, folklore);
@@ -597,9 +625,10 @@ class DatabaseConnection {
         PreparedStatement countPS, pstmt;
         ResultSet getRS = null, countRS;
         System.out.println("What would you like to search by?\n" +
-                "1. Cryptid ID\n" +
-                "2. Date (YYYY-MM-DD)\n" +
-                "3. Location");
+                "1. Evidence ID\n" +
+                "2. Cryptid ID\n" +
+                "3. Date (YYYY-MM-DD)\n" +
+                "4. Location");
         int response = scanner.nextInt();
         System.out.print("Enter search term:");
         scanner.nextLine();
@@ -608,6 +637,18 @@ class DatabaseConnection {
         try
         {
             if(response == 1)
+            {
+                countPS = conn.prepareStatement("SELECT  COUNT(*) FROM evidence WHERE Evidence_ID = ?");
+                countPS.setInt(1, Integer.parseInt(query));
+                countRS = countPS.executeQuery();
+                countRS.next();
+                count = countRS.getInt(1);
+
+                pstmt = conn.prepareStatement("SELECT * FROM evidence WHERE Evidence_ID = ?");
+                pstmt.setInt(1, Integer.parseInt(query));
+                getRS = pstmt.executeQuery();
+            }
+            else if(response == 2)
             {
                 countPS = conn.prepareStatement("SELECT  COUNT(*) FROM evidence WHERE CID = ?");
                 countPS.setInt(1, Integer.parseInt(query));
@@ -619,7 +660,7 @@ class DatabaseConnection {
                 pstmt.setInt(1, Integer.parseInt(query));
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 2)
+            else if (response == 3)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM evidence WHERE 'Date' = ?");
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -634,7 +675,7 @@ class DatabaseConnection {
                 pstmt.setDate(1, sqlDate);
                 getRS = pstmt.executeQuery();
             }
-            else if (response == 3)
+            else if (response == 4)
             {
                 countPS = conn.prepareStatement("SELECT COUNT(*) FROM evidence WHERE Location = ?");
                 countPS.setString(1, query);
@@ -647,16 +688,17 @@ class DatabaseConnection {
                 getRS = pstmt.executeQuery();
             }
 
-            String[] names = {"Cryptid ID", "Date", "Type", "Location"};
-            String[][] evidence = new String[count][4];
+            String[] names = {"Evidence ID", "Cryptid ID", "Date", "Type", "Location"};
+            String[][] evidence = new String[count][5];
             int i = 0;
             assert getRS != null;
             while (getRS.next())
             {
                 evidence[i][0] = Integer.toString(getRS.getInt(1));
-                evidence[i][1] = String.valueOf(getRS.getDate(2));
-                evidence[i][2] = getRS.getString(3);
+                evidence[i][1] = Integer.toString(getRS.getInt(2));
+                evidence[i][2] = String.valueOf(getRS.getDate(3));
                 evidence[i][3] = getRS.getString(4);
+                evidence[i][4] = getRS.getString(5);
                 i++;
             }
             TextTable evidenceTable = new TextTable(names, evidence);
@@ -808,16 +850,16 @@ class DatabaseConnection {
     static void printAllMedia()
     {
         System.out.println("All Media: ");
-        String[] names = {"Cryptid", "Title", "Year", "Format", "Rating"};
+        String[] names = {"Media ID", "Cryptid", "Title", "Year", "Format", "Rating"};
         try {
             PreparedStatement mediaPS = conn.prepareStatement("SELECT COUNT(*) FROM media");
             ResultSet mediaRS = mediaPS.executeQuery();
             mediaRS.next();
             int mediaCount = mediaRS.getInt(1);
 
-            String[][] media = new String[mediaCount][5];
-            PreparedStatement getMedia = conn.prepareStatement("select c.Cryptid_Name, m.Title, m.Year, m.Format, m.Rating\n" +
-                    "FROM media m, cryptid c\n" +
+            String[][] media = new String[mediaCount][6];
+            PreparedStatement getMedia = conn.prepareStatement("select m.Media_ID, c.Cryptid_Name, m.Title, m.Year, m.Format, m.Rating " +
+                    "FROM media m, cryptid c " +
                     "WHERE c.CID = m.CID");
             ResultSet getRS = getMedia.executeQuery();
             int i = 0;
@@ -825,9 +867,10 @@ class DatabaseConnection {
             {
                 media[i][0] = getRS.getString(1);
                 media[i][1] = getRS.getString(2);
-                media[i][2] = Integer.toString(getRS.getInt(3));
-                media[i][3] = getRS.getString(4);
-                media[i][4] = Integer.toString(getRS.getInt(5));
+                media[i][2] = getRS.getString(3);
+                media[i][3] = Integer.toString(getRS.getInt(4));
+                media[i][4] = getRS.getString(5);
+                media[i][5] = Integer.toString(getRS.getInt(6));
                 i++;
             }
             TextTable mediaTable = new TextTable(names, media);
@@ -841,25 +884,26 @@ class DatabaseConnection {
     static void printAllFolklore()
     {
         System.out.println("All Media: ");
-        String[] names = {"Cryptid", "Folklore", "Year", "Location"};
+        String[] names = {"Folklore ID"," Cryptid", "Folklore", "Year", "Location"};
         try {
             PreparedStatement folklorePS = conn.prepareStatement("SELECT COUNT(*) FROM folklore");
             ResultSet folkloreRS = folklorePS.executeQuery();
             folkloreRS.next();
             int folkloreCount = folkloreRS.getInt(1);
 
-            String[][] folklore = new String[folkloreCount][4];
-            PreparedStatement getFolklore = conn.prepareStatement("select c.Cryptid_Name, f.Folklore, f.Year, f.Location\n" +
-                    "FROM cryptid c, folklore f\n" +
+            String[][] folklore = new String[folkloreCount][5];
+            PreparedStatement getFolklore = conn.prepareStatement("select f.Folklore_ID, c.Cryptid_Name, f.Folklore, f.Year, f.Location " +
+                    "FROM cryptid c, folklore f " +
                     "WHERE c.CID = f.CID");
             ResultSet getRS = getFolklore.executeQuery();
             int i = 0;
             while (getRS.next())
             {
-                folklore[i][0] = getRS.getString(1);
+                folklore[i][0] = Integer.toString(getRS.getInt(1));
                 folklore[i][1] = getRS.getString(2);
-                folklore[i][2] = Integer.toString(getRS.getInt(3));
-                folklore[i][3] = getRS.getString(4);
+                folklore[i][2] = getRS.getString(3);
+                folklore[i][3] = Integer.toString(getRS.getInt(4));
+                folklore[i][4] = getRS.getString(5);
                 i++;
             }
             TextTable folkloreTable = new TextTable(names, folklore);
@@ -873,25 +917,26 @@ class DatabaseConnection {
     static void printAllEvidence()
     {
         System.out.println("All Evidence: ");
-        String[] names = {"Cryptid", "Date", "Evidence", "Location"};
+        String[] names = {"Evidence ID", "Cryptid", "Date", "Evidence", "Location"};
         try {
             PreparedStatement evidencePS = conn.prepareStatement("SELECT COUNT(*) FROM evidence");
             ResultSet evidenceRS = evidencePS.executeQuery();
             evidenceRS.next();
             int evidenceCount = evidenceRS.getInt(1);
 
-            String[][] evidence = new String[evidenceCount][4];
-            PreparedStatement getEvidence = conn.prepareStatement("select c.Cryptid_Name, e.Date, e.Medium, e.Location\n" +
-                    "FROM cryptid c, evidence e\n" +
+            String[][] evidence = new String[evidenceCount][5];
+            PreparedStatement getEvidence = conn.prepareStatement("select e.Evidence_ID, c.Cryptid_Name, e.Date, e.Medium, e.Location " +
+                    "FROM cryptid c, evidence e " +
                     "WHERE c.CID = e.CID");
             ResultSet getRS = getEvidence.executeQuery();
             int i = 0;
             while (getRS.next())
             {
-                evidence[i][0] = getRS.getString(1);
-                evidence[i][1] = String.valueOf(getRS.getDate(2));
-                evidence[i][2] = getRS.getString(3);
+                evidence[i][0] = Integer.toString(getRS.getInt(1));
+                evidence[i][1] = getRS.getString(2);
+                evidence[i][2] = String.valueOf(getRS.getDate(3));
                 evidence[i][3] = getRS.getString(4);
+                evidence[i][4] = getRS.getString(5);
                 i++;
             }
             TextTable evidenceTable = new TextTable(names, evidence);
@@ -1255,4 +1300,243 @@ class DatabaseConnection {
             e.printStackTrace();
         }
     }
+
+    static void updateMedia()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you know the media's ID number?");
+        String idresponse = scanner.nextLine();
+
+        if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
+            searchMedia();
+        }
+
+        System.out.print("Enter Media ID number: ");
+        int ID = scanner.nextInt();
+
+        System.out.println("What would you like to update?");
+        System.out.println("1. Title\n" +
+                "2. Format\n" +
+                "3. Rating\n" +
+                "4. Year");
+        int response = scanner.nextInt();
+
+        try
+        {
+            if(response == 1)
+            {
+                System.out.print("Enter new Title:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updatePS = conn.prepareStatement("UPDATE media SET Title = ? WHERE Media_ID = ?");
+                updatePS.setString(1, input);
+                updatePS.setInt(2, ID);
+                updatePS.executeUpdate();
+
+                conn.commit();
+
+                System.out.println("Updated Media ID: " + ID + " to Title: " + input);
+
+            }
+            else if (response == 2)
+            {
+                System.out.print("Enter new Format:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE media SET Format = ? WHERE Media_ID = ?");
+                updateNamePS.setString(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Media ID: " + ID + " to Format: " + input);
+            }
+            else if (response == 3)
+            {
+                System.out.print("Enter new rating:");
+                scanner.nextLine();
+                int input = scanner.nextInt();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE media SET Rating = ? WHERE Media_ID = ?");
+                updateNamePS.setInt(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Media ID: " + ID + " to Rating: " + input);
+            }
+            else if (response == 4)
+            {
+                System.out.print("Enter new year:");
+                scanner.nextLine();
+                int input = scanner.nextInt();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE media SET 'Year' = ? WHERE Media_ID = ?");
+                updateNamePS.setInt(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Media ID: " + ID + " to Year: " + input);
+            }
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void updateFolklore()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you know the folklore's ID number?");
+        String idresponse = scanner.nextLine();
+
+        if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
+            searchMedia();
+        }
+
+        System.out.print("Enter folklore ID number: ");
+        int ID = scanner.nextInt();
+
+        System.out.println("What would you like to update?");
+        System.out.println("1. Folklore\n" +
+                "2. Year\n" +
+                "3. Location");
+        int response = scanner.nextInt();
+
+        try
+        {
+            if(response == 1)
+            {
+                System.out.print("Enter new Folklore:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updatePS = conn.prepareStatement("UPDATE folklore SET Folklore = ? WHERE Folklore_ID = ?");
+                updatePS.setString(1, input);
+                updatePS.setInt(2, ID);
+                updatePS.executeUpdate();
+
+                conn.commit();
+
+                System.out.println("Updated Folklore ID: " + ID + " to Folklore: " + input);
+
+            }
+            else if (response == 2)
+            {
+                System.out.print("Enter new year:");
+                scanner.nextLine();
+                int input = scanner.nextInt();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE folklore SET 'Year' = ? WHERE Folklore_ID = ?");
+                updateNamePS.setInt(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Folklore ID: " + ID + " to Year: " + input);
+            }
+            else if (response == 3)
+            {
+                System.out.print("Enter new Location:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE folklore SET Location = ? WHERE Folklore_ID = ?");
+                updateNamePS.setString(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Folklore ID: " + ID + " to Location: " + input);
+            }
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void updateEvidence()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you know the Evidence's ID number?");
+        String idresponse = scanner.nextLine();
+
+        if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
+            searchMedia();
+        }
+
+        System.out.print("Enter evidence ID number: ");
+        int ID = scanner.nextInt();
+
+        System.out.println("What would you like to update?");
+        System.out.println("1. Date (yyyy-mm-dd)\n" +
+                "2. Medium\n" +
+                "3. Location");
+        int response = scanner.nextInt();
+
+        try
+        {
+            if(response == 1)
+            {
+                System.out.print("Enter new Date:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date utilDate = format.parse(input);
+                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                PreparedStatement updatePS = conn.prepareStatement("UPDATE evidence SET 'Date' = ? WHERE Evidence_ID = ?");
+                updatePS.setDate(1, sqlDate);
+                updatePS.setInt(2, ID);
+                updatePS.executeUpdate();
+
+                conn.commit();
+
+                System.out.println("Updated Evidence ID: " + ID + " to Date: " + input);
+
+            }
+            else if (response == 2)
+            {
+                System.out.print("Enter new Medium:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE evidence SET Medium = ? WHERE Evidence_ID = ?");
+                updateNamePS.setString(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Evidence ID: " + ID + " to Medium: " + input);
+            }
+            else if (response == 3)
+            {
+                System.out.print("Enter new Location:");
+                scanner.nextLine();
+                String input = scanner.nextLine();
+
+                PreparedStatement updateNamePS = conn.prepareStatement("UPDATE evidence SET Location = ? WHERE Evidence_ID = ?");
+                updateNamePS.setString(1, input);
+                updateNamePS.setInt(2, ID);
+                updateNamePS.executeUpdate();
+                conn.commit();
+
+                System.out.println("Updated Evidence ID: " + ID + " to Location: " + input);
+            }
+        }
+
+        catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

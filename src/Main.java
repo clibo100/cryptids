@@ -1,5 +1,3 @@
-import java.sql.*;
-import dnl.utils.text.table.TextTable;
 
 import java.util.Scanner;
 
@@ -131,8 +129,10 @@ public class Main {
                 dbconnect.updateSighting();
                 break;
             case 5:
+                dbconnect.updateMedia();
                 break;
             case 6:
+                dbconnect.updateFolklore();
                 break;
             case 7:
                 break;

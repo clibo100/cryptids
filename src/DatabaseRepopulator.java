@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
-@SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection", "unused"})
+@SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection", "unused", "WeakerAccess"})
 public class DatabaseRepopulator {
 
 
@@ -16,7 +16,7 @@ public class DatabaseRepopulator {
 
     }
 
-    private static void Repopulate() {
+    static void Repopulate() {
         GenerateCryptids();
         GenerateHundredEvidence();
         GenerateHundredFolklore();
@@ -26,7 +26,7 @@ public class DatabaseRepopulator {
         GenerateHundredMedia();
     }
 
-    private static void GenerateCryptids() {
+    static void GenerateCryptids() {
         System.out.println("Generating Cryptids...");
 
         //database connection
@@ -86,7 +86,7 @@ public class DatabaseRepopulator {
         System.out.println("Generation Complete");
     }
 
-    private static void GenerateHundredViewers() {
+    static void GenerateHundredViewers() {
         System.out.println("Generating Viewers...");
         Random rand = new Random();
         Faker faker = new Faker();
@@ -236,7 +236,7 @@ public class DatabaseRepopulator {
         System.out.println("Generation Complete");
     }
 
-    private static void GenerateHundredEvidence() {
+    static void GenerateHundredEvidence() {
         System.out.println("Generating Evidence...");
 
         //connect to database
@@ -253,7 +253,7 @@ public class DatabaseRepopulator {
             String[] medium = {"twig", "fuzzy picture", "footprint", "sound recording", "mud smears", "droppings", "abandoned den", "dead prey carcass"};
 
             //generate a hundred pieces of evidence
-            PreparedStatement insertEvidence = conn.prepareStatement("INSERT INTO evidence VALUES (?, ?, ?, ?)");
+            PreparedStatement insertEvidence = conn.prepareStatement("INSERT INTO evidence VALUES (null, ?, ?, ?, ?)");
             for (int i = 0; i < 100; ++i) {
                 insertEvidence.setInt(1, rand.nextInt(cryptidCount) + 1);
 
@@ -276,7 +276,7 @@ public class DatabaseRepopulator {
 
     }
 
-    private static void GenerateHundredFolklore() {
+    static void GenerateHundredFolklore() {
         System.out.println("Generating Folklore...");
 
         //connect to database
@@ -293,7 +293,7 @@ public class DatabaseRepopulator {
             int cryptidCount = cryptidRS.getInt(1);
 
             //generate a hundred pieces of folklore
-            PreparedStatement insertFolklore = conn.prepareStatement("INSERT INTO folklore VALUES (?, ?, ?, ?)");
+            PreparedStatement insertFolklore = conn.prepareStatement("INSERT INTO folklore VALUES (null, ?, ?, ?, ?)");
             for (int i = 0; i < 100; ++i) {
                 insertFolklore.setInt(1, rand.nextInt(cryptidCount) + 1);
 
@@ -313,7 +313,7 @@ public class DatabaseRepopulator {
         System.out.println("Generation Complete");
     }
 
-    private static void GenerateHundredMedia() {
+    static void GenerateHundredMedia() {
         System.out.println("Generating Media...");
         //make connection
         Connection conn = dbconnect.getConn();
@@ -329,7 +329,7 @@ public class DatabaseRepopulator {
             int cryptidCount = cryptidRS.getInt(1);
 
             //prepare insert statement
-            PreparedStatement insertMedia = conn.prepareStatement("INSERT INTO media VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement insertMedia = conn.prepareStatement("INSERT INTO media VALUES (null, ?, ?, ?, ?, ?)");
 
             //insert 100 random media pieces
             for (int i = 0; i < 100; ++i)
