@@ -135,6 +135,7 @@ public class Main {
                 dbconnect.updateFolklore();
                 break;
             case 7:
+                dbconnect.updateEvidence();
                 break;
             default:
                 break;

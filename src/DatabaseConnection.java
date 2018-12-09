@@ -1397,7 +1397,7 @@ class DatabaseConnection {
         String idresponse = scanner.nextLine();
 
         if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
-            searchMedia();
+            searchFolklore();
         }
 
         System.out.print("Enter folklore ID number: ");
@@ -1470,7 +1470,7 @@ class DatabaseConnection {
         String idresponse = scanner.nextLine();
 
         if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
-            searchMedia();
+            searchEvidence();
         }
 
         System.out.print("Enter evidence ID number: ");
