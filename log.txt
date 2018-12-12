@@ -1,1 +1,4 @@
 UPDATE viewer SET Viewer_Name = Sierra J Clibourne III WHERE Viewer_ID = 1
+INSERT INTO cryptid VALUES (null,la bamba,fake thing,1000,10,Land)
+INSERT INTO cryptid VALUES (null,Sierra C,creepy lady,150,5,Water)
+INSERT INTO viewer VALUES (null,Marky Mark,Ontario,69,0,Student,0)

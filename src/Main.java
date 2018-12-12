@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 @SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection", "unused", "Duplicates", "AccessStaticViaInstance"})
@@ -8,7 +9,7 @@ public class Main {
 
     private static DatabaseConnection dbconnect = new DatabaseConnection();
 
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, SQLException, ParseException {
         boolean cont = true;
         DatabaseRepopulator dr = new DatabaseRepopulator();
 
@@ -72,7 +73,7 @@ public class Main {
         }
     }
 
-    private static void createNewEntry() {
+    private static void createNewEntry() throws SQLException, ParseException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("What would you like to create?");
         System.out.println("1. Cryptid\n" +
@@ -86,10 +87,10 @@ public class Main {
 
         switch (response) {
             case 1:
-                //put method for making new cryptid here
+                dbconnect.createCryptid();
                 break;
             case 2:
-                //put method for making new viewer here
+                dbconnect.createViewer();
                 break;
             case 3:
                 //put method for making new publication here
@@ -104,7 +105,7 @@ public class Main {
                 //put method for making new folklore here
                 break;
             case 7:
-                //put method for making new evidence here
+                dbconnect.createEvidence();
                 break;
             default:
                 break;

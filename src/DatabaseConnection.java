@@ -181,7 +181,7 @@ class DatabaseConnection {
         }
         writer.close();
 
-        System.out.println("Exported to CSV");
+        System.out.println("Exported all tables to CSVs");
     }
 
     static void searchCryptids()
@@ -1715,5 +1715,149 @@ class DatabaseConnection {
         }
     }
 
+    static void createCryptid() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Enter new Cryptid name: ");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter new Cryptid description: ");
+        String description = scanner.nextLine();
+
+        System.out.println("Enter new Cryptid height: ");
+        String height = scanner.nextLine();
+
+        System.out.println("Enter new Cryptid weight: ");
+        String weight = scanner.nextLine();
+
+        System.out.println("Enter new Cryptid Biome (Land/Sky/Water): ");
+        String biome = scanner.nextLine();
+
+        PreparedStatement insertPS = conn.prepareStatement("INSERT INTO cryptid VALUES (null,?,?,?,?,?)");
+        insertPS.setString(1, name);
+        insertPS.setString(2, description);
+        insertPS.setFloat(3, Float.parseFloat(weight));
+        insertPS.setFloat(4, Float.parseFloat(height));
+        insertPS.setString(5, biome);
+
+        insertPS.executeUpdate();
+        conn.commit();
+
+        writer.print("INSERT INTO cryptid VALUES (null," + name + ","
+                + description + "," + weight + "," + height + "," + biome + ")\n");
+
+        PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(CID) FROM cryptid");
+        ResultSet returnRS = returnPS.executeQuery();
+        returnRS.next();
+        System.out.println("Added new Cryptid: " + name + " with Cryptid ID: " + returnRS.getInt(1));
+    }
+
+    static void createViewer() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter new Viewer name: ");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter new Viewer Location: ");
+        String location = scanner.nextLine();
+
+        System.out.println("Enter new Viewer Age: ");
+        String age = scanner.nextLine();
+
+        System.out.println("Enter new Viewer Credentials: ");
+        String credentials = scanner.nextLine();
+
+        PreparedStatement insertPS = conn.prepareStatement("INSERT INTO viewer VALUES (null,?,?,?,0,?,0)");
+        insertPS.setString(1, name);
+        insertPS.setString(2, location);
+        insertPS.setInt(3, Integer.parseInt(age));
+        insertPS.setString(4, credentials);
+
+        insertPS.executeUpdate();
+        conn.commit();
+
+        writer.print("INSERT INTO viewer VALUES (null," + name + ","
+                + location + "," + age + "," + 0 + "," + credentials + "," + 0 +")\n");
+
+        PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(Viewer_ID) FROM viewer");
+        ResultSet returnRS = returnPS.executeQuery();
+        returnRS.next();
+        System.out.println("Added new Viewer: " + name + " with ID: " + returnRS.getInt(1));
+    }
+
+    static void createEvidence() throws SQLException, ParseException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you know the cryptid ID of the cryptid who left this evidence?");
+        String response1 = scanner.nextLine();
+
+        if (response1.charAt(0) == 'n' || response1.charAt(0) == 'N')
+        {
+            System.out.println("Would you like to\n" +
+                    "1. Show all cryptid options?\n" +
+                    "2. Search cryptids?\n " +
+                    "3. Create a new cryptid?");
+
+            while (true)
+            {
+                int response2 = Integer.parseInt(scanner.nextLine());
+                switch (response2)
+                {
+                    case 1: {
+                        printAllCryptids();
+                        break;
+                    }
+                    case 2: {
+                        searchCryptids();
+                        break;
+                    }
+                    case 3: {
+                        createCryptid();
+                        break;
+                    }
+                    default:{
+                        System.out.println("Not a valid entry. Enter 1, 2, or 3 based on the options above");
+                        break;
+                    }
+                }
+                if (response2 == 1 || response2 == 2 || response2 == 3)
+                {
+                    break;
+                }
+            }
+
+        }
+
+        System.out.println("Enter Cryptid's ID: ");
+        String CID = scanner.nextLine();
+
+        System.out.println("Enter new Evidence Date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date utilDate = format.parse(date);
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+        System.out.println("Enter Evidence Medium/Type: ");
+        String medium = scanner.nextLine();
+
+        System.out.println("Enter Evidence Location: ");
+        String location = scanner.nextLine();
+
+        PreparedStatement insertPS = conn.prepareStatement("INSERT INTO evidence VALUES (null,?,?,?,?)");
+        insertPS.setString(1, CID);
+        insertPS.setDate(2, sqlDate);
+        insertPS.setString(3, medium);
+        insertPS.setString(4, location);
+
+        insertPS.executeUpdate();
+        conn.commit();
+
+        writer.print("INSERT INTO evidence VALUES (null," + CID + ","
+                + date + "," + medium + "," + location + ")\n");
+
+        PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(Evidence_ID) FROM evidence");
+        ResultSet returnRS = returnPS.executeQuery();
+        returnRS.next();
+        System.out.println("Added new Evidence with ID: " + returnRS.getInt(1));
+    }
 }
