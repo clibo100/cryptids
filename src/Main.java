@@ -57,6 +57,7 @@ public class Main {
                 String contin = scanner.nextLine();
                 if ((contin.charAt(0) == 'n' || contin.charAt(0) == 'N')) {
                     System.out.println("Thank you and stay Cryptic! :)");
+                    dbconnect.closeWriter();
                     cont = false;
                 }
             }

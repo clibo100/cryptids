@@ -1,5 +1,8 @@
 import dnl.utils.text.table.TextTable;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,18 +12,26 @@ import java.util.Scanner;
 class DatabaseConnection {
 
     private static Connection conn;
+    private static PrintWriter writer;
 
     DatabaseConnection() {
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cryptiddb", "tester", "tester");
             conn.setAutoCommit(false);
-        } catch (SQLException e) {
+            FileWriter fileWriter = new FileWriter("log.txt");
+            writer = new PrintWriter(fileWriter);
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
 
     Connection getConn() {
         return conn;
+    }
+
+    void closeWriter()
+    {
+        writer.close();
     }
 
     static void getNewConn()
@@ -983,6 +994,7 @@ class DatabaseConnection {
                 updatePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE cryptid SET Cryptid_Name = " + input + " WHERE CID = " + CID);
                 System.out.println("Updated Cryptid ID: " + CID + " to name: " + input);
 
             }
@@ -998,6 +1010,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE cryptid SET Description = " + input + " WHERE CID = " + CID);
                 System.out.println("Updated Cryptid ID: " + CID + " to description: " + input);
             }
             else if (response == 3)
@@ -1012,6 +1025,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE cryptid SET Weight = " + input + " WHERE CID = " + CID);
                 System.out.println("Updated Cryptid ID: " + CID + " to weight: " + input);
             }
             else if (response == 4)
@@ -1026,6 +1040,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE cryptid SET Height = " + input + " WHERE CID = " + CID);
                 System.out.println("Updated Cryptid ID: " + CID + " to height: " + input);
             }
             else if (response == 5)
@@ -1056,6 +1071,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE cryptid SET Biome = " + input + " WHERE CID = " + CID);
                 System.out.println("Updated Cryptid ID: " + CID + " to biome: " + biome);
                 
             }
@@ -1101,6 +1117,7 @@ class DatabaseConnection {
                 updatePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE viewer SET Viewer_Name = " + input + " WHERE Viewer_ID = " + VID);
                 System.out.println("Updated Viewer ID: " + VID + " to name: " + input);
 
             }
@@ -1116,6 +1133,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE viewer SET Location = " + input + " WHERE Viewer_ID = " + VID);
                 System.out.println("Updated Viewer ID: " + VID + " to location: " + input);
             }
             else if (response == 3)
@@ -1130,6 +1148,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE viewer SET Age = " + input + " WHERE Viewer_ID = " + VID);
                 System.out.println("Updated Viewer ID: " + VID + " to Age: " + input);
             }
             else if (response == 4)
@@ -1144,6 +1163,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE viewer SET Credentials = " + input + " WHERE Viewer_ID = " + VID);
                 System.out.println("Updated Viewer ID: " + VID + " to Credentials: " + input);
             }
         }
@@ -1192,14 +1212,17 @@ class DatabaseConnection {
                 updatePS.setInt(1, input);
                 updatePS.setInt(2, ID);
                 updatePS.executeUpdate();
+                writer.print("UPDATE sightings SET Viewer_ID = " + input + " WHERE Sighting_ID = " + ID);
 
                 PreparedStatement updateOld = conn.prepareStatement("Update viewer set Number_of_Sightings = Number_of_Sightings - 1 Where viewer_ID = ?");
                 updateOld.setInt(1, oldID);
                 updateOld.executeUpdate();
+                writer.print("UPDATE viewer SET Number_of_Sightings = Number_of_Sightings - 1 WHERE Viewer_ID = " + oldID);
 
                 PreparedStatement updateNew = conn.prepareStatement("Update viewer set Number_of_Sightings = Number_of_Sightings + 1 Where viewer_ID = ?");
                 updateNew.setInt(1, input);
                 updateNew.executeUpdate();
+                writer.print("UPDATE viewer SET Number_of_Sightings = Number_of_Sightings + 1 WHERE Viewer_ID = " + input);
 
                 conn.commit();
 
@@ -1218,6 +1241,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE sightings SET CID = " + input + " WHERE Sighting_ID = " + ID);
                 System.out.println("Updated Sighting ID: " + ID + " to Cryptid ID: " + input);
             }
         }
@@ -1266,14 +1290,17 @@ class DatabaseConnection {
                 updatePS.setInt(1, input);
                 updatePS.setInt(2, ID);
                 updatePS.executeUpdate();
+                writer.print("UPDATE publications SET Viewer_ID = " + input + " WHERE Publication_ID = " + ID);
 
                 PreparedStatement updateOld = conn.prepareStatement("Update viewer set Number_of_Publications = Number_of_Publications-1 Where viewer_ID = ?");
                 updateOld.setInt(1, oldID);
                 updateOld.executeUpdate();
+                writer.print("Update viewer set Number_of_Publications = Number_of_Publications-1 Where viewer_ID = " + oldID);
 
                 PreparedStatement updateNew = conn.prepareStatement("Update viewer set Number_of_Publications = Number_of_Publications+1 Where viewer_ID = ?");
                 updateNew.setInt(1, input);
                 updateNew.executeUpdate();
+                writer.print("Update viewer set Number_of_Publications = Number_of_Publications+1 Where viewer_ID = " + input);
 
                 conn.commit();
 
@@ -1292,6 +1319,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE publications SET Publication = " + input + " WHERE Publication_ID = " + ID);
                 System.out.println("Updated Publication ID: " + ID + " to Title: " + input);
             }
         }
@@ -1337,6 +1365,7 @@ class DatabaseConnection {
 
                 conn.commit();
 
+                writer.print("UPDATE media SET Title = " + input + " WHERE Media_ID = " + ID);
                 System.out.println("Updated Media ID: " + ID + " to Title: " + input);
 
             }
@@ -1352,6 +1381,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE media SET Format = " + input + " WHERE Media_ID = " + ID);
                 System.out.println("Updated Media ID: " + ID + " to Format: " + input);
             }
             else if (response == 3)
@@ -1366,6 +1396,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE media SET Rating = " + input + " WHERE Media_ID = " + ID);
                 System.out.println("Updated Media ID: " + ID + " to Rating: " + input);
             }
             else if (response == 4)
@@ -1380,6 +1411,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE media SET Year = " + input + " WHERE Media_ID = " + ID);
                 System.out.println("Updated Media ID: " + ID + " to Year: " + input);
             }
         }
@@ -1424,6 +1456,7 @@ class DatabaseConnection {
 
                 conn.commit();
 
+                writer.print("UPDATE folklore SET Folklore = " + input + " WHERE Folklore_ID = " + ID);
                 System.out.println("Updated Folklore ID: " + ID + " to Folklore: " + input);
 
             }
@@ -1439,6 +1472,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE folklore SET Year = " + input + " WHERE Folklore_ID = " + ID);
                 System.out.println("Updated Folklore ID: " + ID + " to Year: " + input);
             }
             else if (response == 3)
@@ -1453,6 +1487,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE folklore SET Location = " + input + " WHERE Folklore_ID = " + ID);
                 System.out.println("Updated Folklore ID: " + ID + " to Location: " + input);
             }
         }
@@ -1500,6 +1535,7 @@ class DatabaseConnection {
 
                 conn.commit();
 
+                writer.print("UPDATE evidence SET Date = " + input + " WHERE Evidence_ID = " + ID);
                 System.out.println("Updated Evidence ID: " + ID + " to Date: " + input);
 
             }
@@ -1515,6 +1551,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE evidence SET Medium = " + input + " WHERE Evidence_ID = " + ID);
                 System.out.println("Updated Evidence ID: " + ID + " to Medium: " + input);
             }
             else if (response == 3)
@@ -1529,6 +1566,7 @@ class DatabaseConnection {
                 updateNamePS.executeUpdate();
                 conn.commit();
 
+                writer.print("UPDATE evidence SET Location = " + input + " WHERE Evidence_ID = " + ID);
                 System.out.println("Updated Evidence ID: " + ID + " to Location: " + input);
             }
         }

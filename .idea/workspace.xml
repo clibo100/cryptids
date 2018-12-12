@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fb521cca-a870-488f-8858-32ca56bf6548" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Cryptids/DatabaseConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Cryptids/DatabaseConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Cryptids/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Cryptids/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -24,15 +23,17 @@
           <entry key="project.open.time.49" value="1" />
           <entry key="project.open.time.57" value="1" />
           <entry key="project.open.time.61" value="1" />
+          <entry key="project.open.time.66" value="1" />
           <entry key="project.open.time.7" value="1" />
           <entry key="project.open.time.85" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="html" value="1" />
           <entry key="java" value="9" />
+          <entry key="txt" value="1" />
           <entry key="xml" value="3" />
         </counts>
       </usages-collector>
@@ -40,33 +41,34 @@
         <counts>
           <entry key="HTML" value="1" />
           <entry key="JAVA" value="9" />
+          <entry key="PLAIN_TEXT" value="1" />
           <entry key="XML" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="19598" />
-          <entry key="txt" value="574" />
+          <entry key="java" value="20068" />
+          <entry key="txt" value="587" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="19598" />
-          <entry key="PLAIN_TEXT" value="574" />
+          <entry key="JAVA" value="20068" />
+          <entry key="PLAIN_TEXT" value="587" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="137" column="43" selection-start-line="137" selection-start-column="43" selection-end-line="137" selection-end-column="43" />
+            <state relative-caret-position="238">
+              <caret line="59" column="44" selection-start-line="59" selection-start-column="44" selection-end-line="59" selection-end-column="44" />
               <folding>
-                <element signature="method#main#0;class#Main#0" />
                 <element signature="method#createNewEntry#0;class#Main#0" />
+                <element signature="method#updateTable#0;class#Main#0" />
                 <element signature="method#searchTable#0;class#Main#0" />
                 <element signature="method#printTable#0;class#Main#0" />
               </folding>
@@ -74,14 +76,15 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/DatabaseConnection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1360">
-              <caret line="1465" column="4" selection-start-line="1465" selection-start-column="4" selection-end-line="1465" selection-end-column="4" />
+            <state relative-caret-position="300">
+              <caret line="21" column="12" lean-forward="true" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#DatabaseConnection#0;class#DatabaseConnection#0" />
+                <element signature="e#1000#1001#0" expanded="true" />
+                <element signature="e#1030#1031#0" expanded="true" />
                 <element signature="method#getNewConn#0;class#DatabaseConnection#0" />
                 <element signature="method#searchCryptids#0;class#DatabaseConnection#0" />
                 <element signature="method#searchViewers#0;class#DatabaseConnection#0" />
@@ -98,7 +101,6 @@
                 <element signature="method#printAllFolklore#0;class#DatabaseConnection#0" />
                 <element signature="method#printAllEvidence#0;class#DatabaseConnection#0" />
                 <element signature="method#updateCryptid#0;class#DatabaseConnection#0" />
-                <element signature="method#updateViewer#0;class#DatabaseConnection#0" />
                 <element signature="method#updateSighting#0;class#DatabaseConnection#0" />
                 <element signature="method#updatePublication#0;class#DatabaseConnection#0" />
                 <element signature="method#updateMedia#0;class#DatabaseConnection#0" />
@@ -113,7 +115,7 @@
         <entry file="file://$PROJECT_DIR$/src/DatabaseRepopulator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#DatabaseRepopulator#0;class#DatabaseRepopulator#0" />
@@ -133,7 +135,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Sighting.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
+            <state relative-caret-position="442">
               <caret line="36" selection-start-line="36" selection-end-line="36" />
             </state>
           </provider>
@@ -180,9 +182,9 @@
         <option value="$PROJECT_DIR$/src/Publication.java" />
         <option value="$PROJECT_DIR$/src/Viewer.java" />
         <option value="$PROJECT_DIR$/src/Sighting.java" />
-        <option value="$PROJECT_DIR$/src/DatabaseConnection.java" />
         <option value="$PROJECT_DIR$/src/DatabaseRepopulator.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/DatabaseConnection.java" />
       </list>
     </option>
   </component>
@@ -224,6 +226,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -246,7 +249,6 @@
       </pane>
       <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -255,7 +257,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544398422994" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544584845180" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -312,7 +314,8 @@
       <workItem from="1543269640901" duration="681000" />
       <workItem from="1543367927268" duration="2363000" />
       <workItem from="1543864025606" duration="31677000" />
-      <workItem from="1544387447312" duration="10951000" />
+      <workItem from="1544387447312" duration="12204000" />
+      <workItem from="1544574414299" duration="1724000" />
     </task>
     <task id="LOCAL-00001" summary="added transactions">
       <created>1543868756870</created>
@@ -440,17 +443,24 @@
       <option name="project" value="LOCAL" />
       <updated>1544398403903</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="lil bug fixes">
+      <created>1544398459814</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1544398459814</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80885000" />
+    <option name="totallyTimeSpent" value="83862000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4995633" visible="true" weight="0.2033557" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4995633" visible="true" weight="0.20604026" />
       <window_info id="Image Layers" order="1" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -459,7 +469,7 @@
       <window_info id="Structure" order="6" sideWeight="0.50043666" weight="0.1671141" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32907802" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4986577" visible="true" weight="0.3035461" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4986577" visible="true" weight="0.3035461" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -529,7 +539,8 @@
     <MESSAGE value="framework for create functions" />
     <MESSAGE value="fixed a couple bugs" />
     <MESSAGE value="finished update statements and changed primary keys in all locations" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished update statements and changed primary keys in all locations" />
+    <MESSAGE value="lil bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="lil bug fixes" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/NamesList.java" />
@@ -549,6 +560,32 @@
     <entry file="file://$PROJECT_DIR$/.idea/description.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/DatabaseRepopulator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#DatabaseRepopulator#0;class#DatabaseRepopulator#0" />
+            <element signature="method#Repopulate#0;class#DatabaseRepopulator#0" />
+            <element signature="method#GenerateCryptids#0;class#DatabaseRepopulator#0" />
+            <element signature="method#GenerateHundredViewers#0;class#DatabaseRepopulator#0" />
+            <element signature="method#GenerateSightings#0;class#DatabaseRepopulator#0" />
+            <element signature="method#GeneratePublications#0;class#DatabaseRepopulator#0" />
+            <element signature="method#GenerateHundredEvidence#0;class#DatabaseRepopulator#0" />
+            <element signature="method#GenerateHundredFolklore#0;class#DatabaseRepopulator#0" />
+            <element signature="method#GenerateHundredMedia#0;class#DatabaseRepopulator#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Sighting.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Viewer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
@@ -566,39 +603,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Sighting.java">
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DatabaseRepopulator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="238">
+          <caret line="59" column="44" selection-start-line="59" selection-start-column="44" selection-end-line="59" selection-end-column="44" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#DatabaseRepopulator#0;class#DatabaseRepopulator#0" />
-            <element signature="method#Repopulate#0;class#DatabaseRepopulator#0" />
-            <element signature="method#GenerateCryptids#0;class#DatabaseRepopulator#0" />
-            <element signature="method#GenerateHundredViewers#0;class#DatabaseRepopulator#0" />
-            <element signature="method#GenerateSightings#0;class#DatabaseRepopulator#0" />
-            <element signature="method#GeneratePublications#0;class#DatabaseRepopulator#0" />
-            <element signature="method#GenerateHundredEvidence#0;class#DatabaseRepopulator#0" />
-            <element signature="method#GenerateHundredFolklore#0;class#DatabaseRepopulator#0" />
-            <element signature="method#GenerateHundredMedia#0;class#DatabaseRepopulator#0" />
+            <element signature="method#createNewEntry#0;class#Main#0" />
+            <element signature="method#updateTable#0;class#Main#0" />
+            <element signature="method#searchTable#0;class#Main#0" />
+            <element signature="method#printTable#0;class#Main#0" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/log.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DatabaseConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
-          <caret line="1465" column="4" selection-start-line="1465" selection-start-column="4" selection-end-line="1465" selection-end-column="4" />
+        <state relative-caret-position="300">
+          <caret line="21" column="12" lean-forward="true" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#DatabaseConnection#0;class#DatabaseConnection#0" />
+            <element signature="e#1000#1001#0" expanded="true" />
+            <element signature="e#1030#1031#0" expanded="true" />
             <element signature="method#getNewConn#0;class#DatabaseConnection#0" />
             <element signature="method#searchCryptids#0;class#DatabaseConnection#0" />
             <element signature="method#searchViewers#0;class#DatabaseConnection#0" />
@@ -615,25 +643,11 @@
             <element signature="method#printAllFolklore#0;class#DatabaseConnection#0" />
             <element signature="method#printAllEvidence#0;class#DatabaseConnection#0" />
             <element signature="method#updateCryptid#0;class#DatabaseConnection#0" />
-            <element signature="method#updateViewer#0;class#DatabaseConnection#0" />
             <element signature="method#updateSighting#0;class#DatabaseConnection#0" />
             <element signature="method#updatePublication#0;class#DatabaseConnection#0" />
             <element signature="method#updateMedia#0;class#DatabaseConnection#0" />
             <element signature="method#updateFolklore#0;class#DatabaseConnection#0" />
             <element signature="method#updateEvidence#0;class#DatabaseConnection#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="137" column="43" selection-start-line="137" selection-start-column="43" selection-end-line="137" selection-end-column="43" />
-          <folding>
-            <element signature="method#main#0;class#Main#0" />
-            <element signature="method#createNewEntry#0;class#Main#0" />
-            <element signature="method#searchTable#0;class#Main#0" />
-            <element signature="method#printTable#0;class#Main#0" />
           </folding>
         </state>
       </provider>
