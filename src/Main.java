@@ -1,4 +1,6 @@
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 @SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection", "unused", "Duplicates", "AccessStaticViaInstance"})
@@ -6,7 +8,7 @@ public class Main {
 
     private static DatabaseConnection dbconnect = new DatabaseConnection();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SQLException {
         boolean cont = true;
         DatabaseRepopulator dr = new DatabaseRepopulator();
 
@@ -19,7 +21,8 @@ public class Main {
                     "2. Search\n" +
                     "3. Edit existing Record\n" +
                     "4. Create a new Entry\n" +
-                    "5. Exit");
+                    "5. Export to CSV\n" +
+                    "0. Exit");
             int response = scanner.nextInt();
 
             switch (response)
@@ -41,8 +44,13 @@ public class Main {
                     break;
                 }
                 case 5: {
+                    dbconnect.exportDatabase();
+                    break;
+                }
+                case 0: {
                     cont = false;
                     System.out.println("Thank you and stay Cryptic! :)");
+                    dbconnect.closeWriter();
                     break;
                 }
                 default: {

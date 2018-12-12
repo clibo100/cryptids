@@ -18,7 +18,7 @@ class DatabaseConnection {
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cryptiddb", "tester", "tester");
             conn.setAutoCommit(false);
-            FileWriter fileWriter = new FileWriter("log.txt");
+            FileWriter fileWriter = new FileWriter("log.txt", true);
             writer = new PrintWriter(fileWriter);
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -34,14 +34,154 @@ class DatabaseConnection {
         writer.close();
     }
 
-    static void getNewConn()
-    {
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cryptiddb", "tester", "tester");
-            conn.setAutoCommit(false);
-        } catch (SQLException e) {
-            e.printStackTrace();
+    void exportDatabase() throws SQLException, IOException {
+        String names = ("Cryptid ID, " + "Name, " + "Description, " + "Weight, " + "Height, " + "Biome,\n");
+
+        FileWriter fileWriter = new FileWriter("cryptids.csv", false);
+        PrintWriter writer = new PrintWriter(fileWriter);
+
+        writer.print(names);
+
+        PreparedStatement getPS = conn.prepareStatement("SELECT * FROM cryptid");
+        ResultSet getRS = getPS.executeQuery();
+
+        while (getRS.next())
+        {
+            writer.print(getRS.getInt(1) + ", "
+                    + getRS.getString(2) + ", "
+                    + getRS.getString(3) + ", "
+                    + getRS.getFloat(4) + ", "
+                    + getRS.getFloat(5) + ", "
+                    + getRS.getString(6) + "\n");
         }
+        writer.close();
+
+        names = ("Viewer ID, " + "Name, " + "Location, " + "Age, " + "Sightings, " + "Credentials, " + "Publications,\n");
+
+        fileWriter = new FileWriter("viewers.csv", false);
+        writer = new PrintWriter(fileWriter);
+
+        writer.print(names);
+
+        getPS = conn.prepareStatement("SELECT * FROM viewer");
+        getRS = getPS.executeQuery();
+
+        while (getRS.next())
+        {
+            writer.print(getRS.getInt(1) + ", "
+                    + getRS.getString(2) + ", "
+                    + getRS.getString(3) + ", "
+                    + getRS.getInt(4) + ", "
+                    + getRS.getInt(5) + ", "
+                    + getRS.getString(6) + ", "
+                    + getRS.getInt(7) + "\n");
+        }
+        writer.close();
+
+        names = ("Evidence ID, " + "CID, " + "Date, " + "Medium, " + "Location,\n");
+
+        fileWriter = new FileWriter("evidence.csv", false);
+        writer = new PrintWriter(fileWriter);
+
+        writer.print(names);
+
+        getPS = conn.prepareStatement("SELECT * FROM evidence");
+        getRS = getPS.executeQuery();
+
+        while (getRS.next())
+        {
+            writer.print(getRS.getInt(1) + ", "
+                    + getRS.getInt(2) + ", "
+                    + getRS.getDate(3) + ", "
+                    + getRS.getString(4) + ", "
+                    + getRS.getString(5) + "\n");
+        }
+        writer.close();
+
+        names = ("Folklore ID, " + "CID, " + "Folklore, " + "Year, " + "Location,\n");
+
+        fileWriter = new FileWriter("folklore.csv", false);
+        writer = new PrintWriter(fileWriter);
+
+        writer.print(names);
+
+        getPS = conn.prepareStatement("SELECT * FROM folklore");
+        getRS = getPS.executeQuery();
+
+        while (getRS.next())
+        {
+            writer.print(getRS.getInt(1) + ", "
+                    + getRS.getInt(2) + ", "
+                    + getRS.getString(3) + ", "
+                    + getRS.getInt(4) + ", "
+                    + getRS.getString(5) + "\n");
+        }
+        writer.close();
+
+        names = ("Media ID, " + "CID, " + "Title, " + "Year, " + "Format, " + "Rating,\n");
+
+        fileWriter = new FileWriter("media.csv", false);
+        writer = new PrintWriter(fileWriter);
+
+        writer.print(names);
+
+        getPS = conn.prepareStatement("SELECT * FROM media");
+        getRS = getPS.executeQuery();
+
+        while (getRS.next())
+        {
+            writer.print(getRS.getInt(1) + ", "
+                    + getRS.getInt(2) + ","
+                    + "\"" + getRS.getString(3) + "\"" + ", "
+                    + getRS.getInt(4) + ", "
+                    + getRS.getString(5) + ", "
+                    + getRS.getInt(6) + "\n");
+        }
+        writer.close();
+
+
+        names = ("Publication ID, " + "Viewer ID, " + "Publication, " + "Year, " + "Publisher,\n");
+
+        fileWriter = new FileWriter("publications.csv", false);
+        writer = new PrintWriter(fileWriter);
+
+        writer.print(names);
+
+        getPS = conn.prepareStatement("SELECT * FROM publications");
+        getRS = getPS.executeQuery();
+
+        while (getRS.next())
+        {
+            writer.print(getRS.getInt(1) + ", "
+                    + getRS.getInt(2) + ", "
+                    + getRS.getString(3) + ", "
+                    + getRS.getInt(4) + ", "
+                    + getRS.getString(5) + "\n");
+        }
+        writer.close();
+
+        names = ("Sighting ID, " + "CID, " + "Latitude, " + "Longitude, " + "Date, " + "Viewer ID,\n");
+
+        fileWriter = new FileWriter("sightings.csv", false);
+        writer = new PrintWriter(fileWriter);
+
+        writer.print(names);
+
+        getPS = conn.prepareStatement("SELECT * FROM sightings");
+        getRS = getPS.executeQuery();
+
+        while (getRS.next())
+        {
+            writer.print(getRS.getInt(1) + ", "
+                    + getRS.getInt(2) + ", "
+                    + getRS.getFloat(3) + ", "
+                    + getRS.getFloat(4) + ", "
+                    + getRS.getDate(5) + ", "
+                    + getRS.getInt(6) + "\n");
+        }
+        writer.close();
+
+        System.out.println("Exported to CSV");
     }
 
     static void searchCryptids()
