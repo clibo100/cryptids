@@ -1844,7 +1844,7 @@ class DatabaseConnection {
         String location = scanner.nextLine();
 
         PreparedStatement insertPS = conn.prepareStatement("INSERT INTO evidence VALUES (null,?,?,?,?)");
-        insertPS.setString(1, CID);
+        insertPS.setInt(1, Integer.parseInt(CID));
         insertPS.setDate(2, sqlDate);
         insertPS.setString(3, medium);
         insertPS.setString(4, location);
@@ -1858,6 +1858,360 @@ class DatabaseConnection {
         PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(Evidence_ID) FROM evidence");
         ResultSet returnRS = returnPS.executeQuery();
         returnRS.next();
-        System.out.println("Added new Evidence with ID: " + returnRS.getInt(1));
+        System.out.println("Added new Evidence of type: " + medium + "with ID: " + returnRS.getInt(1));
+    }
+
+    static void createFolklore() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you know the cryptid ID of the cryptid who this folklore pertains to?");
+        String response1 = scanner.nextLine();
+
+        if (response1.charAt(0) == 'n' || response1.charAt(0) == 'N')
+        {
+            System.out.println("Would you like to\n" +
+                    "1. Show all cryptid options?\n" +
+                    "2. Search cryptids?\n" +
+                    "3. Create a new cryptid?");
+
+            while (true)
+            {
+                int response2 = Integer.parseInt(scanner.nextLine());
+                switch (response2)
+                {
+                    case 1: {
+                        printAllCryptids();
+                        break;
+                    }
+                    case 2: {
+                        searchCryptids();
+                        break;
+                    }
+                    case 3: {
+                        createCryptid();
+                        break;
+                    }
+                    default:{
+                        System.out.println("Not a valid entry. Enter 1, 2, or 3 based on the options above");
+                        break;
+                    }
+                }
+                if (response2 == 1 || response2 == 2 || response2 == 3)
+                {
+                    break;
+                }
+            }
+
+        }
+
+        System.out.println("Enter Cryptid's ID: ");
+        String CID = scanner.nextLine();
+
+        System.out.println("Enter new folklore type: ");
+        String folklore = scanner.nextLine();
+
+        System.out.println("Enter folklore year: ");
+        String year = scanner.nextLine();
+
+        System.out.println("Enter folklore Location: ");
+        String location = scanner.nextLine();
+
+        PreparedStatement insertPS = conn.prepareStatement("INSERT INTO folklore VALUES (null,?,?,?,?)");
+        insertPS.setInt(1, Integer.parseInt(CID));
+        insertPS.setString(2, folklore);
+        insertPS.setInt(3, Integer.parseInt(year));
+        insertPS.setString(4, location);
+
+        insertPS.executeUpdate();
+        conn.commit();
+
+        writer.print("INSERT INTO folklore VALUES (null," + CID + ","
+                + folklore + "," + year + "," + location + ")\n");
+
+        PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(Folklore_ID) FROM folklore");
+        ResultSet returnRS = returnPS.executeQuery();
+        returnRS.next();
+        System.out.println("Added new folklore: " + folklore + " with ID: " + returnRS.getInt(1));
+    }
+
+    static void createMedia() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you know the cryptid ID of the cryptid who this media pertains to?");
+        String response1 = scanner.nextLine();
+
+        if (response1.charAt(0) == 'n' || response1.charAt(0) == 'N')
+        {
+            System.out.println("Would you like to\n" +
+                    "1. Show all cryptid options?\n" +
+                    "2. Search cryptids?\n" +
+                    "3. Create a new cryptid?");
+
+            while (true)
+            {
+                int response2 = Integer.parseInt(scanner.nextLine());
+                switch (response2)
+                {
+                    case 1: {
+                        printAllCryptids();
+                        break;
+                    }
+                    case 2: {
+                        searchCryptids();
+                        break;
+                    }
+                    case 3: {
+                        createCryptid();
+                        break;
+                    }
+                    default:{
+                        System.out.println("Not a valid entry. Enter 1, 2, or 3 based on the options above");
+                        break;
+                    }
+                }
+                if (response2 == 1 || response2 == 2 || response2 == 3)
+                {
+                    break;
+                }
+            }
+
+        }
+
+        System.out.println("Enter Cryptid's ID: ");
+        String CID = scanner.nextLine();
+
+        System.out.println("Enter new media title: ");
+        String title = scanner.nextLine();
+
+        System.out.println("Enter media year: ");
+        String year = scanner.nextLine();
+
+        System.out.println("Enter media format: ");
+        String format = scanner.nextLine();
+
+        System.out.println("Enter media rating (0-10): ");
+        String rating = scanner.nextLine();
+
+        PreparedStatement insertPS = conn.prepareStatement("INSERT INTO media VALUES (null,?,?,?,?,?)");
+        insertPS.setInt(1, Integer.parseInt(CID));
+        insertPS.setString(2, title);
+        insertPS.setInt(3, Integer.parseInt(year));
+        insertPS.setString(4, format);
+        insertPS.setInt(3, Integer.parseInt(rating));
+
+        insertPS.executeUpdate();
+        conn.commit();
+
+        writer.print("INSERT INTO media VALUES (null," + CID + ","
+                + title + "," + year + "," + format + "," + rating + ")\n");
+
+        PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(Media_ID) FROM media");
+        ResultSet returnRS = returnPS.executeQuery();
+        returnRS.next();
+        System.out.println("Added new media: " + title + " with ID: " + returnRS.getInt(1));
+    }
+
+    static void createPublication() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you know the viewer ID of the author?");
+        String response1 = scanner.nextLine();
+
+        if (response1.charAt(0) == 'n' || response1.charAt(0) == 'N')
+        {
+            System.out.println("Would you like to\n" +
+                    "1. Show all viewers?\n" +
+                    "2. Search viewers?\n" +
+                    "3. Create a new viewer?");
+
+            while (true)
+            {
+                int response2 = Integer.parseInt(scanner.nextLine());
+                switch (response2)
+                {
+                    case 1: {
+                        printAllViewers();
+                        break;
+                    }
+                    case 2: {
+                        searchViewers();
+                        break;
+                    }
+                    case 3: {
+                        createViewer();
+                        break;
+                    }
+                    default:{
+                        System.out.println("Not a valid entry. Enter 1, 2, or 3 based on the options above");
+                        break;
+                    }
+                }
+                if (response2 == 1 || response2 == 2 || response2 == 3)
+                {
+                    break;
+                }
+            }
+
+        }
+
+        System.out.println("Enter Viewer's ID: ");
+        String VID = scanner.nextLine();
+
+        System.out.println("Enter new Publication title: ");
+        String title = scanner.nextLine();
+
+        System.out.println("Enter publication year: ");
+        String year = scanner.nextLine();
+
+        System.out.println("Enter publisher: ");
+        String publisher = scanner.nextLine();
+
+        PreparedStatement insertPS = conn.prepareStatement("INSERT INTO publications VALUES (null,?,?,?,?)");
+        insertPS.setInt(1, Integer.parseInt(VID));
+        insertPS.setString(2, title);
+        insertPS.setInt(3, Integer.parseInt(year));
+        insertPS.setString(4, publisher);
+        insertPS.executeUpdate();
+
+        PreparedStatement updatePS = conn.prepareStatement("UPDATE viewer SET Number_of_Publications = Number_of_Publications + 1 WHERE Viewer_ID = ?");
+        updatePS.setInt(1, Integer.parseInt(VID));
+        updatePS.executeUpdate();
+        conn.commit();
+
+        writer.print("INSERT INTO publications VALUES (null," + VID + ","
+                + title + "," + year + "," + publisher + ")\n");
+
+        writer.print("UPDATE viewer SET Number_of_Publications = Number_of_Publications + 1 WHERE Viewer_ID = " + VID + "\n");
+
+        PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(Publication_ID) FROM publications");
+        ResultSet returnRS = returnPS.executeQuery();
+        returnRS.next();
+        System.out.println("Added new publication: " + title + " with ID: " + returnRS.getInt(1));
+    }
+
+    static void createSighting() throws SQLException, ParseException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you know the viewer ID of the person who made this sighting?");
+        String response1 = scanner.nextLine();
+
+        if (response1.charAt(0) == 'n' || response1.charAt(0) == 'N')
+        {
+            System.out.println("Would you like to\n" +
+                    "1. Show all viewers?\n" +
+                    "2. Search viewers?\n" +
+                    "3. Create a new viewer?");
+
+            while (true)
+            {
+                int response2 = Integer.parseInt(scanner.nextLine());
+                switch (response2)
+                {
+                    case 1: {
+                        printAllViewers();
+                        break;
+                    }
+                    case 2: {
+                        searchViewers();
+                        break;
+                    }
+                    case 3: {
+                        createViewer();
+                        break;
+                    }
+                    default:{
+                        System.out.println("Not a valid entry. Enter 1, 2, or 3 based on the options above");
+                        break;
+                    }
+                }
+                if (response2 == 1 || response2 == 2 || response2 == 3)
+                {
+                    break;
+                }
+            }
+
+        }
+
+        System.out.println("Enter Viewer's ID: ");
+        String VID = scanner.nextLine();
+
+        System.out.println("Do you know the cryptid ID of the cryptid sighted?");
+        String response11 = scanner.nextLine();
+
+        if (response11.charAt(0) == 'n' || response11.charAt(0) == 'N')
+        {
+            System.out.println("Would you like to\n" +
+                    "1. Show all cryptid options?\n" +
+                    "2. Search cryptids?\n " +
+                    "3. Create a new cryptid?");
+
+            while (true)
+            {
+                int response2 = Integer.parseInt(scanner.nextLine());
+                switch (response2)
+                {
+                    case 1: {
+                        printAllCryptids();
+                        break;
+                    }
+                    case 2: {
+                        searchCryptids();
+                        break;
+                    }
+                    case 3: {
+                        createCryptid();
+                        break;
+                    }
+                    default:{
+                        System.out.println("Not a valid entry. Enter 1, 2, or 3 based on the options above");
+                        break;
+                    }
+                }
+                if (response2 == 1 || response2 == 2 || response2 == 3)
+                {
+                    break;
+                }
+            }
+
+        }
+        System.out.println("Enter Cryptid ID: ");
+        String CID = scanner.nextLine();
+
+        System.out.println("Enter Latitude: ");
+        String latitude = scanner.nextLine();
+
+        System.out.println("Enter Longitude: ");
+        String longitude = scanner.nextLine();
+
+        System.out.println("Enter sighting Date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date utilDate = format.parse(date);
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+        PreparedStatement insertPS = conn.prepareStatement("INSERT INTO sightings VALUES (null,?,?,?,?,?)");
+        insertPS.setInt(1, Integer.parseInt(CID));
+        insertPS.setFloat(2, Float.parseFloat(latitude));
+        insertPS.setFloat(3, Float.parseFloat(longitude));
+        insertPS.setDate(4, sqlDate);
+        insertPS.setInt(5, Integer.parseInt(VID));
+
+        insertPS.executeUpdate();
+
+        PreparedStatement updatePS = conn.prepareStatement("UPDATE viewer SET Number_of_Sightings = Number_of_Sightings + 1 WHERE Viewer_ID = ?");
+        updatePS.setInt(1, Integer.parseInt(VID));
+        updatePS.executeUpdate();
+        conn.commit();
+
+        writer.print("INSERT INTO sightings VALUES (null," + CID + ","
+                + latitude + "," + longitude + "," + date + "," + VID + ")\n");
+
+        writer.print("UPDATE viewer SET Number_of_Sightings = Number_of_Sightings + 1 WHERE Viewer_ID = " + VID + "\n");
+
+        PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(Sighting_ID) FROM sightings");
+        ResultSet returnRS = returnPS.executeQuery();
+        returnRS.next();
+        System.out.println("Added new sighting of Cryptid: " + CID + " From Viewer: "
+                + VID + " with  Sighting ID: " + returnRS.getInt(1));
     }
 }

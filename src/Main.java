@@ -93,16 +93,16 @@ public class Main {
                 dbconnect.createViewer();
                 break;
             case 3:
-                //put method for making new publication here
+                dbconnect.createPublication();
                 break;
             case 4:
-                //put method for making new sighting here
+                dbconnect.createSighting();
                 break;
             case 5:
-                //put method for making new media here
+               dbconnect.createMedia();
                 break;
             case 6:
-                //put method for making new folklore here
+                dbconnect.createFolklore();
                 break;
             case 7:
                 dbconnect.createEvidence();
