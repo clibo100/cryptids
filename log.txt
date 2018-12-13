@@ -4,3 +4,18 @@ INSERT INTO cryptid VALUES (null,Sierra C,creepy lady,150,5,Water)
 INSERT INTO viewer VALUES (null,Marky Mark,Ontario,69,0,Student,0)
 INSERT INTO viewer VALUES (null,Miguel,Manila,12,0,Graduate,0)
 INSERT INTO sightings VALUES (null,21,1.0000,2.0000,2018-01-13,102)
+DELETE FROM media WHERE CID = 21
+DELETE FROM folklore WHERE CID = 21
+DELETE FROM evidence WHERE CID = 21
+UPDATE Viewer SET Number_of_Sightings = Number_of_Sightings - 1 WHERE Viewer_ID = ?102
+DELETE FROM sightings WHERE CID = 21
+DELETE FROM cryptid WHERE CID = 21
+INSERT INTO cryptid VALUES (null,Sierra,goblin,150,5,Water)
+INSERT INTO sightings VALUES (null,21,1,1,2018-01-01,102)
+UPDATE viewer SET Number_of_Sightings = Number_of_Sightings + 1 WHERE Viewer_ID = 102
+DELETE FROM media WHERE CID = 21
+DELETE FROM folklore WHERE CID = 21
+DELETE FROM evidence WHERE CID = 21
+UPDATE Viewer SET Number_of_Sightings = Number_of_Sightings - 1 WHERE Viewer_ID = ?102
+DELETE FROM sightings WHERE CID = 21
+DELETE FROM cryptid WHERE CID = 21

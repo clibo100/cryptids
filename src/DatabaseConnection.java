@@ -2214,4 +2214,77 @@ class DatabaseConnection {
         System.out.println("Added new sighting of Cryptid: " + CID + " From Viewer: "
                 + VID + " with  Sighting ID: " + returnRS.getInt(1));
     }
+
+    static void deleteCryptid() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you know the ID of the cryptid you would like to delete?");
+        String response = scanner.nextLine();
+
+        if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
+        {
+            System.out.println("Enter ID of Cryptid you would like to delete");
+            String CID = scanner.nextLine();
+
+            System.out.println("Are you sure you want to delete Cryptid " + CID + "? This is permanent and cannot be undone.\n" +
+                    "This will also delete all media, folklore, evidence, and sightings of this cryptid permanently.");
+            String sure = scanner.nextLine();
+
+            if (sure.charAt(0) == 'y' || sure.charAt(0) == 'Y')
+            {
+                PreparedStatement deleteMediaPS = conn.prepareStatement("DELETE FROM media WHERE CID = ?");
+                deleteMediaPS.setInt(1, Integer.parseInt(CID));
+                deleteMediaPS.executeUpdate();
+                writer.print("DELETE FROM media WHERE CID = " + CID + "\n");
+
+                PreparedStatement deleteFolklorePS = conn.prepareStatement("DELETE FROM folklore WHERE CID = ?");
+                deleteFolklorePS.setInt(1, Integer.parseInt(CID));
+                deleteFolklorePS.executeUpdate();
+                writer.print("DELETE FROM folklore WHERE CID = " + CID + "\n");
+
+                PreparedStatement deleteEvidencePS = conn.prepareStatement("DELETE FROM evidence WHERE CID = ?");
+                deleteEvidencePS.setInt(1, Integer.parseInt(CID));
+                deleteEvidencePS.executeUpdate();
+                writer.print("DELETE FROM evidence WHERE CID = " + CID + "\n");
+
+                PreparedStatement getSightingsPS = conn.prepareStatement("SELECT Viewer_ID, COUNT(Viewer_ID)" +
+                        " FROM sightings WHERE CID = ? GROUP BY Viewer_ID");
+                getSightingsPS.setInt(1, Integer.parseInt(CID));
+                ResultSet getSightingsRS = getSightingsPS.executeQuery();
+
+                PreparedStatement removeSightingsPS = conn.prepareStatement("UPDATE Viewer SET Number_of_Sightings = Number_of_Sightings - ?" +
+                        " WHERE Viewer_ID = ?");
+                while (getSightingsRS.next())
+                {
+                    removeSightingsPS.setInt(1, getSightingsRS.getInt(2));
+                    removeSightingsPS.setInt(2, getSightingsRS.getInt(1));
+                    removeSightingsPS.executeUpdate();
+
+                    writer.print("UPDATE Viewer SET Number_of_Sightings = Number_of_Sightings - " + getSightingsRS.getInt(2) +
+                            " WHERE Viewer_ID = ?" + getSightingsRS.getInt(1) + "\n");
+                }
+
+                PreparedStatement deleteSightingsPS = conn.prepareStatement("DELETE FROM sightings WHERE CID = ?");
+                deleteSightingsPS.setInt(1, Integer.parseInt(CID));
+                deleteSightingsPS.executeUpdate();
+                writer.print("DELETE FROM sightings WHERE CID = " + CID + "\n");
+
+                PreparedStatement deletePS = conn.prepareStatement("DELETE FROM cryptid WHERE CID = ?");
+                deletePS.setInt(1, Integer.parseInt(CID));
+                deletePS.executeUpdate();
+                writer.print("DELETE FROM cryptid WHERE CID = " + CID + "\n");
+
+                conn.commit();
+
+                System.out.println("Crypid " + CID + " DELETED");
+            }
+            else
+            {
+                System.out.println("Please continue to a different action");
+            }
+        }
+        else
+        {
+            System.out.println("You must have the Cryptid ID to delete the cryptid. Please find cryptid ID and try again.");
+        }
+    }
 }

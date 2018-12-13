@@ -23,6 +23,7 @@ public class Main {
                     "3. Edit existing Record\n" +
                     "4. Create a new Entry\n" +
                     "5. Export to CSV\n" +
+                    "6. Delete a Record\n" +
                     "0. Exit");
             int response = scanner.nextInt();
 
@@ -48,6 +49,10 @@ public class Main {
                     dbconnect.exportDatabase();
                     break;
                 }
+                case 6: {
+                    deleteRecord();
+                    break;
+                }
                 case 0: {
                     cont = false;
                     System.out.println("Thank you and stay Cryptic! :)");
@@ -70,6 +75,46 @@ public class Main {
                     cont = false;
                 }
             }
+        }
+    }
+
+    private static void deleteRecord() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("What would you like to delete?");
+        System.out.println("1. Cryptids\n" +
+                "2. Viewers\n" +
+                "3. Publications\n" +
+                "4. Sightings\n" +
+                "5. Media\n" +
+                "6. Folklore\n" +
+                "7. Evidence");
+        int response = scanner.nextInt();
+
+        switch (response) {
+            case 1:
+                dbconnect.deleteCryptid();
+                break;
+            case 2:
+                //delete viewer
+                break;
+            case 3:
+                //delete publication
+                break;
+            case 4:
+                //delete sighting
+                break;
+            case 5:
+                //delete media
+                break;
+            case 6:
+                //delete folklore
+                break;
+            case 7:
+                //delete evidence
+                break;
+            default:
+                break;
+
         }
     }
 
