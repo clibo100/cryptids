@@ -95,22 +95,22 @@ public class Main {
                 dbconnect.deleteCryptid();
                 break;
             case 2:
-                //delete viewer
+                dbconnect.deleteViewer();
                 break;
             case 3:
-                //delete publication
+                dbconnect.deletePublications();
                 break;
             case 4:
-                //delete sighting
+                dbconnect.deleteSighting();
                 break;
             case 5:
-                //delete media
+                dbconnect.deleteMedia();
                 break;
             case 6:
-                //delete folklore
+                dbconnect.deleteFolklore();
                 break;
             case 7:
-                //delete evidence
+                dbconnect.deleteEvidence();
                 break;
             default:
                 break;

@@ -1,4 +1,5 @@
 import dnl.utils.text.table.TextTable;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,7 +7,10 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import static java.sql.Types.NULL;
 
 @SuppressWarnings({"Duplicates", "SqlDialectInspection", "SqlNoDataSourceInspection", "WrapperTypeMayBePrimitive", "unused"})
 class DatabaseConnection {
@@ -16,7 +20,7 @@ class DatabaseConnection {
 
     DatabaseConnection() {
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cryptiddb", "tester", "tester");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cryptiddb", "MarkGiambone", "Mgiam007!");
             conn.setAutoCommit(false);
             FileWriter fileWriter = new FileWriter("log.txt", true);
             writer = new PrintWriter(fileWriter);
@@ -565,8 +569,13 @@ class DatabaseConnection {
         int response = scanner.nextInt();
         System.out.print("Enter search term:");
         scanner.nextLine();
-        String query = scanner.nextLine();
-
+        String query = "";
+        try{
+            query = scanner.nextLine();
+        }
+        catch(InputMismatchException e ) {
+            System.out.println("Wrong input");
+        }
         try
         {
             if(response == 1)
@@ -681,7 +690,12 @@ class DatabaseConnection {
         int response = scanner.nextInt();
         System.out.print("Enter search term:");
         scanner.nextLine();
-        String query = scanner.nextLine();
+        String query = "";
+        try {
+            query = scanner.nextLine();
+        }catch(InputMismatchException e){
+            System.out.println("Wrong input");
+        }
 
         try
         {
@@ -2217,14 +2231,23 @@ class DatabaseConnection {
 
     static void deleteCryptid() throws SQLException {
         Scanner scanner = new Scanner(System.in);
+        int CID = NULL;
+        boolean isreal = false;
         System.out.println("Do you know the ID of the cryptid you would like to delete?");
         String response = scanner.nextLine();
 
         if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
         {
             System.out.println("Enter ID of Cryptid you would like to delete");
-            String CID = scanner.nextLine();
-
+            while(!isreal) {
+                try {
+                    CID = Integer.parseInt(scanner.nextLine());
+                    isreal = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("That isn't an integer. Try again");
+                    e.printStackTrace();
+                }
+            }
             System.out.println("Are you sure you want to delete Cryptid " + CID + "? This is permanent and cannot be undone.\n" +
                     "This will also delete all media, folklore, evidence, and sightings of this cryptid permanently.");
             String sure = scanner.nextLine();
@@ -2232,23 +2255,23 @@ class DatabaseConnection {
             if (sure.charAt(0) == 'y' || sure.charAt(0) == 'Y')
             {
                 PreparedStatement deleteMediaPS = conn.prepareStatement("DELETE FROM media WHERE CID = ?");
-                deleteMediaPS.setInt(1, Integer.parseInt(CID));
+                deleteMediaPS.setInt(1, CID);
                 deleteMediaPS.executeUpdate();
                 writer.print("DELETE FROM media WHERE CID = " + CID + "\n");
 
                 PreparedStatement deleteFolklorePS = conn.prepareStatement("DELETE FROM folklore WHERE CID = ?");
-                deleteFolklorePS.setInt(1, Integer.parseInt(CID));
+                deleteFolklorePS.setInt(1, CID);
                 deleteFolklorePS.executeUpdate();
                 writer.print("DELETE FROM folklore WHERE CID = " + CID + "\n");
 
                 PreparedStatement deleteEvidencePS = conn.prepareStatement("DELETE FROM evidence WHERE CID = ?");
-                deleteEvidencePS.setInt(1, Integer.parseInt(CID));
+                deleteEvidencePS.setInt(1, CID);
                 deleteEvidencePS.executeUpdate();
                 writer.print("DELETE FROM evidence WHERE CID = " + CID + "\n");
 
                 PreparedStatement getSightingsPS = conn.prepareStatement("SELECT Viewer_ID, COUNT(Viewer_ID)" +
                         " FROM sightings WHERE CID = ? GROUP BY Viewer_ID");
-                getSightingsPS.setInt(1, Integer.parseInt(CID));
+                getSightingsPS.setInt(1, CID);
                 ResultSet getSightingsRS = getSightingsPS.executeQuery();
 
                 PreparedStatement removeSightingsPS = conn.prepareStatement("UPDATE Viewer SET Number_of_Sightings = Number_of_Sightings - ?" +
@@ -2264,12 +2287,12 @@ class DatabaseConnection {
                 }
 
                 PreparedStatement deleteSightingsPS = conn.prepareStatement("DELETE FROM sightings WHERE CID = ?");
-                deleteSightingsPS.setInt(1, Integer.parseInt(CID));
+                deleteSightingsPS.setInt(1, CID);
                 deleteSightingsPS.executeUpdate();
                 writer.print("DELETE FROM sightings WHERE CID = " + CID + "\n");
 
                 PreparedStatement deletePS = conn.prepareStatement("DELETE FROM cryptid WHERE CID = ?");
-                deletePS.setInt(1, Integer.parseInt(CID));
+                deletePS.setInt(1, CID);
                 deletePS.executeUpdate();
                 writer.print("DELETE FROM cryptid WHERE CID = " + CID + "\n");
 
@@ -2285,6 +2308,344 @@ class DatabaseConnection {
         else
         {
             System.out.println("You must have the Cryptid ID to delete the cryptid. Please find cryptid ID and try again.");
+        }
+    }
+
+    static void deleteViewer() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        String response = "";
+        boolean isreal = false;
+        int vid = NULL;
+        System.out.println("Do you know the ID of the viewer you would like to delete?");
+        while(!isreal){
+            try {
+                response = scanner.nextLine();
+                isreal = true;
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't a string. Try again");
+                e.printStackTrace();
+            }
+        }
+        if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
+        {
+            System.out.println("Enter ID of Viewer you would like to delete");
+            while(!isreal) {
+                try {
+                    vid = Integer.parseInt(scanner.nextLine());
+                    isreal = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("That isn't an integer. Try again");
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Are you sure you want to delete Viewer " + vid + "? This is permanent and cannot be undone.\n" +
+                    "This will also delete all sightings and publications of this Viewer permanently.");
+            String sure = scanner.nextLine();
+
+            if (sure.charAt(0) == 'y' || sure.charAt(0) == 'Y')
+            {
+                PreparedStatement deleteSightingsPS = conn.prepareStatement("DELETE FROM sightings WHERE Viewer_ID = ?");
+                deleteSightingsPS.setInt(1, vid);
+                deleteSightingsPS.executeUpdate();
+                writer.print("DELETE FROM sightings WHERE CID = " + vid + "\n");
+
+                PreparedStatement deletePublicationPS = conn.prepareStatement("DELETE FROM publications WHERE Viewer_ID = ?");
+                deletePublicationPS.setInt(1, vid);
+                deletePublicationPS.executeUpdate();
+                writer.print("DELETE FROM publications WHERE Viewr_ID = " + vid + "\n");
+
+                PreparedStatement deleteViewerPS = conn.prepareStatement("DELETE FROM viewer WHERE Viewer_ID = ?");
+                deleteViewerPS.setInt(1, vid);
+                deleteViewerPS.executeUpdate();
+                writer.print("DELETE FROM viewere WHERE Viewer_ID = " + vid + "\n");
+
+                conn.commit();
+
+                System.out.println("Viewer " + vid + " DELETED");
+            }
+            else
+            {
+                System.out.println("Please continue to a different action");
+            }
+        }
+        else
+        {
+            System.out.println("You must have the Viewer ID to delete the cryptid. Please find cryptid ID and try again.");
+        }
+    }
+
+    static void deletePublications() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you know the ID of the Publication you would like to delete?");
+        String response = "";
+        boolean isreal = false;
+        int pid = 0;
+
+        while(!isreal){
+            try {
+                response = scanner.nextLine();
+                isreal = true;
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't a string. Try again");
+                e.printStackTrace();
+            }
+        }
+
+        if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
+        {
+
+            System.out.println("Enter ID of Publication you would like to delete");
+            while(!isreal) {
+                try {
+                    pid = Integer.parseInt(scanner.nextLine());
+                    isreal = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("That isn't an integer. Try again");
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Are you sure you want to delete the Publication " + pid + "? This is permanent and cannot be undone.\n");
+            String sure = scanner.nextLine();
+
+            if (sure.charAt(0) == 'y' || sure.charAt(0) == 'Y')
+            {
+                PreparedStatement deletePublicationPS = conn.prepareStatement("DELETE FROM publication WHERE Publication_ID = ?");
+                deletePublicationPS.setInt(1, pid);
+                deletePublicationPS.executeUpdate();
+                writer.print("DELETE FROM publication WHERE PublicationID = " + pid + "\n");
+
+                conn.commit();
+
+                System.out.println("Publication " + pid + " DELETED");
+            }
+            else
+            {
+                System.out.println("Please continue to a different action");
+            }
+        }
+        else
+        {
+            System.out.println("You must have the Publication ID to delete the publication. Please find publication ID and try again.");
+        }
+    }
+
+    static void deleteSighting() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you know the ID of the Sighting you would like to delete?");
+        String response = "";
+        boolean isreal = false;
+        int sid = 0;
+
+        while(!isreal){
+            try {
+                response = scanner.nextLine();
+                isreal = true;
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't a string. Try again");
+                e.printStackTrace();
+            }
+        }
+
+        if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
+        {
+
+            System.out.println("Enter ID of Sighting you would like to delete");
+            while(!isreal) {
+                try {
+                    sid = Integer.parseInt(scanner.nextLine());
+                    isreal = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("That isn't an integer. Try again");
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Are you sure you want to delete the Sighting " + sid + "? This is permanent and cannot be undone.\n");
+            String sure = scanner.nextLine();
+
+            if (sure.charAt(0) == 'y' || sure.charAt(0) == 'Y')
+            {
+                PreparedStatement deletePublicationPS = conn.prepareStatement("DELETE FROM sighting WHERE Sighting_ID = ?");
+                deletePublicationPS.setInt(1, sid);
+                deletePublicationPS.executeUpdate();
+                writer.print("DELETE FROM sighting WHERE Sighting_ID = " + sid + "\n");
+
+                conn.commit();
+
+                System.out.println("Sighting " + sid + " DELETED");
+            }
+            else
+            {
+                System.out.println("Please continue to a different action");
+            }
+        }
+        else
+        {
+            System.out.println("You must have the Sighting ID to delete the sighting. Please find sighting ID and try again.");
+        }
+    }
+
+    static void deleteMedia() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you know the ID of the Media you would like to delete?");
+        String response = "";
+        boolean isreal = false;
+        int mid = 0;
+
+        while(!isreal){
+            try {
+                response = scanner.nextLine();
+                isreal = true;
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't a string. Try again");
+                e.printStackTrace();
+            }
+        }
+
+        if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
+        {
+
+            System.out.println("Enter ID of Media you would like to delete");
+            while(!isreal) {
+                try {
+                    mid = Integer.parseInt(scanner.nextLine());
+                    isreal = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("That isn't an integer. Try again");
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Are you sure you want to delete the Publication " + mid + "? This is permanent and cannot be undone.\n");
+            String sure = scanner.nextLine();
+
+            if (sure.charAt(0) == 'y' || sure.charAt(0) == 'Y')
+            {
+                PreparedStatement deletePublicationPS = conn.prepareStatement("DELETE FROM media WHERE Media_ID = ?");
+                deletePublicationPS.setInt(1, mid);
+                deletePublicationPS.executeUpdate();
+                writer.print("DELETE FROM media WHERE Media_ID = " + mid + "\n");
+
+                conn.commit();
+
+                System.out.println("Media " + mid + " DELETED");
+            }
+            else
+            {
+                System.out.println("Please continue to a different action");
+            }
+        }
+        else
+        {
+            System.out.println("You must have the Media ID to delete the media. Please find media ID and try again.");
+        }
+    }
+
+    static void deleteFolklore() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you know the ID of the Folklore you would like to delete?");
+        String response = "";
+        boolean isreal = false;
+        int fid = 0;
+
+        while(!isreal){
+            try {
+                response = scanner.nextLine();
+                isreal = true;
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't a string. Try again");
+                e.printStackTrace();
+            }
+        }
+
+        if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
+        {
+
+            System.out.println("Enter ID of Folklore you would like to delete");
+            while(!isreal) {
+                try {
+                    fid = Integer.parseInt(scanner.nextLine());
+                    isreal = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("That isn't an integer. Try again");
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Are you sure you want to delete the Folklore " + fid + "? This is permanent and cannot be undone.\n");
+            String sure = scanner.nextLine();
+
+            if (sure.charAt(0) == 'y' || sure.charAt(0) == 'Y')
+            {
+                PreparedStatement deleteFolklorePS = conn.prepareStatement("DELETE FROM folklore WHERE Folklore_ID = ?");
+                deleteFolklorePS.setInt(1, fid);
+                deleteFolklorePS.executeUpdate();
+                writer.print("DELETE FROM folklore WHERE Folklore_ID = " + fid + "\n");
+
+                conn.commit();
+
+                System.out.println("Folklore " + fid + " DELETED");
+            }
+            else
+            {
+                System.out.println("Please continue to a different action");
+            }
+        }
+        else
+        {
+            System.out.println("You must have the Folklore ID to delete the folklore. Please find folklore ID and try again.");
+        }
+    }
+
+    static void deleteEvidence() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you know the ID of the Evidence you would like to delete?");
+        String response = "";
+        boolean isreal = false;
+        int eid = 0;
+
+        while (!isreal) {
+            try {
+                response = scanner.nextLine();
+                isreal = true;
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't a string. Try again");
+                e.printStackTrace();
+            }
+        }
+
+        if (response.charAt(0) == 'y' || response.charAt(0) == 'Y') {
+
+            System.out.println("Enter ID of Evidence you would like to delete");
+            while (!isreal) {
+                try {
+                    eid = Integer.parseInt(scanner.nextLine());
+                    isreal = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("That isn't an integer. Try again");
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Are you sure you want to delete the evidence " + eid + "? This is permanent and cannot be undone.\n");
+            String sure = scanner.nextLine();
+
+            if (sure.charAt(0) == 'y' || sure.charAt(0) == 'Y') {
+                PreparedStatement deletePublicationPS = conn.prepareStatement("DELETE FROM evidence WHERE Evidence_ID = ?");
+                deletePublicationPS.setInt(1, eid);
+                deletePublicationPS.executeUpdate();
+                writer.print("DELETE FROM evidence WHERE EvidenceID = " + eid + "\n");
+
+                conn.commit();
+
+                System.out.println("Evidence " + eid + " DELETED");
+            } else {
+                System.out.println("Please continue to a different action");
+            }
+        } else {
+            System.out.println("You must have the Evidence ID to delete the evidence. Please find evidence ID and try again.");
         }
     }
 }
