@@ -263,6 +263,9 @@ class DatabaseConnection {
         catch (SQLException e) {
             e.printStackTrace();
         }
+        catch (NumberFormatException e){
+            System.out.println("Wrong input");
+        }
     }
 
     static void searchViewers()
@@ -353,6 +356,9 @@ class DatabaseConnection {
 
         catch (SQLException e) {
             e.printStackTrace();
+        }
+        catch (NumberFormatException e){
+            System.out.println("Wrong input");
         }
     }
 
@@ -457,6 +463,9 @@ class DatabaseConnection {
         catch (SQLException e) {
             e.printStackTrace();
         }
+        catch (NumberFormatException e){
+            System.out.println("Wrong input");
+        }
     }
 
     static void searchSightings()
@@ -550,6 +559,9 @@ class DatabaseConnection {
 
         catch (SQLException | ParseException e) {
             e.printStackTrace();
+        }
+        catch (NumberFormatException e){
+            System.out.println("Wrong input");
         }
     }
 
@@ -673,6 +685,9 @@ class DatabaseConnection {
         catch (SQLException e) {
             e.printStackTrace();
         }
+        catch (NumberFormatException e){
+            System.out.println("Wrong input");
+        }
     }
 
     static void searchFolklore()
@@ -781,6 +796,9 @@ class DatabaseConnection {
         catch (SQLException e) {
             e.printStackTrace();
         }
+        catch (NumberFormatException e){
+            System.out.println("Wrong input");
+        }
     }
 
     static void searchEvidence()
@@ -873,6 +891,9 @@ class DatabaseConnection {
 
         catch (SQLException | ParseException e) {
             e.printStackTrace();
+        }
+        catch (NumberFormatException e){
+            System.out.println("Wrong input");
         }
     }
 
@@ -1122,17 +1143,26 @@ class DatabaseConnection {
         if ((idresponse.charAt(0) == 'n' || idresponse.charAt(0) == 'N')) {
             printAllCryptids();
         }
-
+        int CID = 0;
         System.out.print("Enter Cryptid ID number: ");
-        int CID = scanner.nextInt();
-
+        try {
+            CID = scanner.nextInt();
+        }
+        catch(InputMismatchException e){
+            System.out.println("wrong input");
+        }
         System.out.println("What would you like to update?");
         System.out.println("1. Name\n" +
                 "2. Description\n" +
                 "3. Weight\n" +
                 "4. Height\n" +
                 "5. Biome\n");
-        int response = scanner.nextInt();
+        int response = 0;
+        try{
+            response=scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.out.println("Wrong input");
+        }
 
         try
         {
@@ -1204,7 +1234,12 @@ class DatabaseConnection {
                         "2. Water\n" +
                         "3. Sky\n");
                 scanner.nextLine();
-                int input = scanner.nextInt();
+                int input = 0;
+                try{
+                    input = scanner.nextInt();
+                }catch(InputMismatchException e){
+                    System.out.println("Wrong input");
+                }
 
                 PreparedStatement updateNamePS = conn.prepareStatement("UPDATE cryptid SET Biome = ? WHERE CID = ?");
                 String biome = null;
@@ -1248,14 +1283,25 @@ class DatabaseConnection {
         }
 
         System.out.print("Enter Viewer ID number: ");
-        int VID = scanner.nextInt();
+        int VID =  0;
+
+        try{
+            VID = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.out.println("Wrong input");
+        }
 
         System.out.println("What would you like to update?");
         System.out.println("1. Name\n" +
                 "2. Location\n" +
                 "3. Age\n" +
                 "4. Credentials\n");
-        int response = scanner.nextInt();
+        int response = 0;
+        try{
+            response = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.out.println("Wrong Input");
+        }
 
         try
         {
@@ -1339,12 +1385,24 @@ class DatabaseConnection {
         }
 
         System.out.print("Enter Sighting ID number: ");
-        int ID = scanner.nextInt();
+        int ID = 0;
+
+        try{
+            ID = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.out.println("Wrong Input");
+        }
 
         System.out.println("What would you like to update?");
         System.out.println("1. Viewer ID\n" +
                 "2. Cryptid ID\n");
-        int response = scanner.nextInt();
+        int response = 0;
+
+        try{
+            response = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.out.println("Wrong input");
+        }
 
         try
         {
@@ -1401,6 +1459,9 @@ class DatabaseConnection {
 
         catch (SQLException e) {
             e.printStackTrace();
+        }
+        catch(InputMismatchException e){
+            System.out.println("Wrong Input");
         }
     }
 
@@ -2109,18 +2170,15 @@ class DatabaseConnection {
         System.out.println("Do you know the viewer ID of the person who made this sighting?");
         String response1 = scanner.nextLine();
 
-        if (response1.charAt(0) == 'n' || response1.charAt(0) == 'N')
-        {
+        if (response1.charAt(0) == 'n' || response1.charAt(0) == 'N') {
             System.out.println("Would you like to\n" +
                     "1. Show all viewers?\n" +
                     "2. Search viewers?\n" +
                     "3. Create a new viewer?");
 
-            while (true)
-            {
+            while (true) {
                 int response2 = Integer.parseInt(scanner.nextLine());
-                switch (response2)
-                {
+                switch (response2) {
                     case 1: {
                         printAllViewers();
                         break;
@@ -2133,13 +2191,12 @@ class DatabaseConnection {
                         createViewer();
                         break;
                     }
-                    default:{
+                    default: {
                         System.out.println("Not a valid entry. Enter 1, 2, or 3 based on the options above");
                         break;
                     }
                 }
-                if (response2 == 1 || response2 == 2 || response2 == 3)
-                {
+                if (response2 == 1 || response2 == 2 || response2 == 3) {
                     break;
                 }
             }
@@ -2152,18 +2209,21 @@ class DatabaseConnection {
         System.out.println("Do you know the cryptid ID of the cryptid sighted?");
         String response11 = scanner.nextLine();
 
-        if (response11.charAt(0) == 'n' || response11.charAt(0) == 'N')
-        {
+        if (response11.charAt(0) == 'n' || response11.charAt(0) == 'N') {
             System.out.println("Would you like to\n" +
                     "1. Show all cryptid options?\n" +
                     "2. Search cryptids?\n " +
                     "3. Create a new cryptid?");
 
-            while (true)
-            {
-                int response2 = Integer.parseInt(scanner.nextLine());
-                switch (response2)
-                {
+            while (true) {
+                int response2 = 0;
+                try {
+                    response2 = Integer.parseInt(scanner.nextLine());
+                } catch (InputMismatchException e) {
+                    System.out.println("Wrong input");
+                    e.printStackTrace();
+                }
+                switch (response2) {
                     case 1: {
                         printAllCryptids();
                         break;
@@ -2176,77 +2236,76 @@ class DatabaseConnection {
                         createCryptid();
                         break;
                     }
-                    default:{
+                    default: {
                         System.out.println("Not a valid entry. Enter 1, 2, or 3 based on the options above");
                         break;
                     }
                 }
-                if (response2 == 1 || response2 == 2 || response2 == 3)
-                {
+                if (response2 == 1 || response2 == 2 || response2 == 3) {
                     break;
                 }
             }
 
         }
-        System.out.println("Enter Cryptid ID: ");
-        String CID = scanner.nextLine();
 
-        System.out.println("Enter Latitude: ");
-        String latitude = scanner.nextLine();
+        try {
+            System.out.println("Enter Cryptid ID: ");
+            String CID = scanner.nextLine();
 
-        System.out.println("Enter Longitude: ");
-        String longitude = scanner.nextLine();
+            System.out.println("Enter Latitude: ");
+            String latitude = scanner.nextLine();
 
-        System.out.println("Enter sighting Date (YYYY-MM-DD): ");
-        String date = scanner.nextLine();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date utilDate = format.parse(date);
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            System.out.println("Enter Longitude: ");
+            String longitude = scanner.nextLine();
 
-        PreparedStatement insertPS = conn.prepareStatement("INSERT INTO sightings VALUES (null,?,?,?,?,?)");
-        insertPS.setInt(1, Integer.parseInt(CID));
-        insertPS.setFloat(2, Float.parseFloat(latitude));
-        insertPS.setFloat(3, Float.parseFloat(longitude));
-        insertPS.setDate(4, sqlDate);
-        insertPS.setInt(5, Integer.parseInt(VID));
+            System.out.println("Enter sighting Date (YYYY-MM-DD): ");
+            String date = scanner.nextLine();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date utilDate = format.parse(date);
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-        insertPS.executeUpdate();
+            PreparedStatement insertPS = conn.prepareStatement("INSERT INTO sightings VALUES (null,?,?,?,?,?)");
+            insertPS.setInt(1, Integer.parseInt(CID));
+            insertPS.setFloat(2, Float.parseFloat(latitude));
+            insertPS.setFloat(3, Float.parseFloat(longitude));
+            insertPS.setDate(4, sqlDate);
+            insertPS.setInt(5, Integer.parseInt(VID));
 
-        PreparedStatement updatePS = conn.prepareStatement("UPDATE viewer SET Number_of_Sightings = Number_of_Sightings + 1 WHERE Viewer_ID = ?");
-        updatePS.setInt(1, Integer.parseInt(VID));
-        updatePS.executeUpdate();
-        conn.commit();
+            insertPS.executeUpdate();
 
-        writer.print("INSERT INTO sightings VALUES (null," + CID + ","
-                + latitude + "," + longitude + "," + date + "," + VID + ")\n");
+            PreparedStatement updatePS = conn.prepareStatement("UPDATE viewer SET Number_of_Sightings = Number_of_Sightings + 1 WHERE Viewer_ID = ?");
+            updatePS.setInt(1, Integer.parseInt(VID));
+            updatePS.executeUpdate();
+            conn.commit();
 
-        writer.print("UPDATE viewer SET Number_of_Sightings = Number_of_Sightings + 1 WHERE Viewer_ID = " + VID + "\n");
+            writer.print("INSERT INTO sightings VALUES (null," + CID + ","
+                    + latitude + "," + longitude + "," + date + "," + VID + ")\n");
 
+            writer.print("UPDATE viewer SET Number_of_Sightings = Number_of_Sightings + 1 WHERE Viewer_ID = " + VID + "\n");
         PreparedStatement returnPS = conn.prepareStatement("SELECT MAX(Sighting_ID) FROM sightings");
         ResultSet returnRS = returnPS.executeQuery();
         returnRS.next();
         System.out.println("Added new sighting of Cryptid: " + CID + " From Viewer: "
                 + VID + " with  Sighting ID: " + returnRS.getInt(1));
+        }catch(InputMismatchException e){
+            System.out.println("Wrong input");
+        }
     }
 
     static void deleteCryptid() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         int CID = NULL;
-        boolean isreal = false;
         System.out.println("Do you know the ID of the cryptid you would like to delete?");
         String response = scanner.nextLine();
 
         if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
         {
             System.out.println("Enter ID of Cryptid you would like to delete");
-            while(!isreal) {
-                try {
-                    CID = Integer.parseInt(scanner.nextLine());
-                    isreal = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("That isn't an integer. Try again");
-                    e.printStackTrace();
-                }
+            try {
+                CID = Integer.parseInt(scanner.nextLine());
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't an integer. Try again");
+                e.printStackTrace();
             }
             System.out.println("Are you sure you want to delete Cryptid " + CID + "? This is permanent and cannot be undone.\n" +
                     "This will also delete all media, folklore, evidence, and sightings of this cryptid permanently.");
@@ -2314,29 +2373,22 @@ class DatabaseConnection {
     static void deleteViewer() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         String response = "";
-        boolean isreal = false;
         int vid = NULL;
         System.out.println("Do you know the ID of the viewer you would like to delete?");
-        while(!isreal){
-            try {
-                response = scanner.nextLine();
-                isreal = true;
-            } catch (InputMismatchException e) {
-                System.out.println("That isn't a string. Try again");
-                e.printStackTrace();
-            }
+        try {
+            response = scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("That isn't a string. Try again");
+            e.printStackTrace();
         }
         if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
         {
             System.out.println("Enter ID of Viewer you would like to delete");
-            while(!isreal) {
-                try {
-                    vid = Integer.parseInt(scanner.nextLine());
-                    isreal = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("That isn't an integer. Try again");
-                    e.printStackTrace();
-                }
+            try {
+                vid = Integer.parseInt(scanner.nextLine());
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't an integer. Try again");
+                e.printStackTrace();
             }
 
             System.out.println("Are you sure you want to delete Viewer " + vid + "? This is permanent and cannot be undone.\n" +
@@ -2379,31 +2431,24 @@ class DatabaseConnection {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Do you know the ID of the Publication you would like to delete?");
         String response = "";
-        boolean isreal = false;
         int pid = 0;
 
-        while(!isreal){
-            try {
-                response = scanner.nextLine();
-                isreal = true;
-            } catch (InputMismatchException e) {
-                System.out.println("That isn't a string. Try again");
-                e.printStackTrace();
-            }
+        try {
+            response = scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("That isn't a string. Try again");
+            e.printStackTrace();
         }
 
         if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
         {
 
             System.out.println("Enter ID of Publication you would like to delete");
-            while(!isreal) {
-                try {
-                    pid = Integer.parseInt(scanner.nextLine());
-                    isreal = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("That isn't an integer. Try again");
-                    e.printStackTrace();
-                }
+            try {
+                pid = Integer.parseInt(scanner.nextLine());
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't an integer. Try again");
+                e.printStackTrace();
             }
 
             System.out.println("Are you sure you want to delete the Publication " + pid + "? This is permanent and cannot be undone.\n");
@@ -2435,31 +2480,24 @@ class DatabaseConnection {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Do you know the ID of the Sighting you would like to delete?");
         String response = "";
-        boolean isreal = false;
         int sid = 0;
 
-        while(!isreal){
-            try {
-                response = scanner.nextLine();
-                isreal = true;
-            } catch (InputMismatchException e) {
-                System.out.println("That isn't a string. Try again");
-                e.printStackTrace();
-            }
+       try {
+            response = scanner.nextLine();
+           } catch (InputMismatchException e) {
+            System.out.println("That isn't a string. Try again");
+            e.printStackTrace();
         }
 
         if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
         {
 
             System.out.println("Enter ID of Sighting you would like to delete");
-            while(!isreal) {
-                try {
-                    sid = Integer.parseInt(scanner.nextLine());
-                    isreal = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("That isn't an integer. Try again");
-                    e.printStackTrace();
-                }
+            try {
+                sid = Integer.parseInt(scanner.nextLine());
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't an integer. Try again");
+                e.printStackTrace();
             }
 
             System.out.println("Are you sure you want to delete the Sighting " + sid + "? This is permanent and cannot be undone.\n");
@@ -2491,31 +2529,24 @@ class DatabaseConnection {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Do you know the ID of the Media you would like to delete?");
         String response = "";
-        boolean isreal = false;
         int mid = 0;
 
-        while(!isreal){
-            try {
-                response = scanner.nextLine();
-                isreal = true;
-            } catch (InputMismatchException e) {
-                System.out.println("That isn't a string. Try again");
-                e.printStackTrace();
-            }
+        try {
+            response = scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("That isn't a string. Try again");
+            e.printStackTrace();
         }
 
         if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
         {
 
             System.out.println("Enter ID of Media you would like to delete");
-            while(!isreal) {
-                try {
-                    mid = Integer.parseInt(scanner.nextLine());
-                    isreal = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("That isn't an integer. Try again");
-                    e.printStackTrace();
-                }
+            try {
+                mid = Integer.parseInt(scanner.nextLine());
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't an integer. Try again");
+                e.printStackTrace();
             }
 
             System.out.println("Are you sure you want to delete the Publication " + mid + "? This is permanent and cannot be undone.\n");
@@ -2547,31 +2578,24 @@ class DatabaseConnection {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Do you know the ID of the Folklore you would like to delete?");
         String response = "";
-        boolean isreal = false;
         int fid = 0;
 
-        while(!isreal){
-            try {
-                response = scanner.nextLine();
-                isreal = true;
-            } catch (InputMismatchException e) {
-                System.out.println("That isn't a string. Try again");
-                e.printStackTrace();
-            }
+        try {
+            response = scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("That isn't a string. Try again");
+            e.printStackTrace();
         }
 
         if (response.charAt(0) == 'y' || response.charAt(0) == 'Y')
         {
 
             System.out.println("Enter ID of Folklore you would like to delete");
-            while(!isreal) {
-                try {
-                    fid = Integer.parseInt(scanner.nextLine());
-                    isreal = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("That isn't an integer. Try again");
-                    e.printStackTrace();
-                }
+            try {
+                fid = Integer.parseInt(scanner.nextLine());
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't an integer. Try again");
+                e.printStackTrace();
             }
 
             System.out.println("Are you sure you want to delete the Folklore " + fid + "? This is permanent and cannot be undone.\n");
@@ -2603,30 +2627,23 @@ class DatabaseConnection {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Do you know the ID of the Evidence you would like to delete?");
         String response = "";
-        boolean isreal = false;
         int eid = 0;
 
-        while (!isreal) {
-            try {
-                response = scanner.nextLine();
-                isreal = true;
-            } catch (InputMismatchException e) {
-                System.out.println("That isn't a string. Try again");
-                e.printStackTrace();
-            }
+        try {
+            response = scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("That isn't a string. Try again");
+            e.printStackTrace();
         }
 
         if (response.charAt(0) == 'y' || response.charAt(0) == 'Y') {
 
             System.out.println("Enter ID of Evidence you would like to delete");
-            while (!isreal) {
-                try {
-                    eid = Integer.parseInt(scanner.nextLine());
-                    isreal = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("That isn't an integer. Try again");
-                    e.printStackTrace();
-                }
+            try {
+                eid = Integer.parseInt(scanner.nextLine());
+            } catch (InputMismatchException e) {
+                System.out.println("That isn't an integer. Try again");
+                e.printStackTrace();
             }
 
             System.out.println("Are you sure you want to delete the evidence " + eid + "? This is permanent and cannot be undone.\n");

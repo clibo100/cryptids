@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 @SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection", "unused", "Duplicates", "AccessStaticViaInstance"})
@@ -128,7 +129,13 @@ public class Main {
                 "5. Media\n" +
                 "6. Folklore\n" +
                 "7. Evidence");
-        int response = scanner.nextInt();
+        int response = 0;
+
+        try{
+            response = scanner.nextInt();
+        }catch (InputMismatchException e){
+            System.out.println("Wrong Input");
+        }
 
         switch (response) {
             case 1:
